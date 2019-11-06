@@ -1,0 +1,73 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+	background:#DDDDDD;
+	color:black;
+	font-family:Helvetica;
+	overflow:hidden;
+}
+#graph {
+	background:#EEEEEE;
+	position:absolute;
+	top:0;
+	left:0;
+	display:block;
+}
+
+#add {
+	width:100%;
+	background:white;
+	box-shadow: 0 0 5px 2px gray;
+	border-radius:5px;
+	margin-top:5px;
+	padding:5px;
+	font-size:25px;
+	cursor:pointer;
+	text-align:center;
+}
+
+#add:hover {
+	background:#EFEFEF;
+}
+
+#functions {
+	display:flex;
+	flex-direction:column;
+	position:absolute;
+	top:0;
+	width:15%;
+}
+.function-pair {
+	background:white;
+	box-shadow: 0 0 5px 2px gray;
+	border-radius:5px;
+	margin-top:5px;
+}
+.field, .fieldDisplay {
+	border:none;
+	font-size:25px;
+	color:black;
+	width:100%;
+	padding:15px;
+	margin:0;
+	background:none;
+}
+.field {
+	overflow:hidden;
+	resize:none;
+	border-bottom:1px black solid;
+}
+
+#stats {
+	position:absolute;
+	bottom:0;
+	left:0;
+}
+
+#settings {
+	position:absolute;
+	bottom:0;
+	right:0;
+}
