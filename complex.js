@@ -13,6 +13,7 @@ var a;
 var canvas, c;
 var start = null;
 var colors = ["rgb(0, 125, 125)", "rgb(125, 125, 0)", "rgb(125, 0, 125)"];
+var func = math.parse("z");
 
 function init() {
 	res = 30;
@@ -106,23 +107,16 @@ function render() {
 	var fields = document.getElementsByClassName('field');
 	
 	c.lineWidth = 4/scale;
-	//draw graphs
-	for(let i=0; i<fields.length; i++) {
-		
-		var f = math.parse(fields[i].value);
-		
-		var z;
-		
-		//draw each segment
-		for(let x=-transX; x < canvas.width/scale - transX; x+=res/scale) {
-			for(let y=-transY; y < canvas.height/scale - transY; y+=res/scale) {
-				
-				out = f.eval({z : math.complex(x, y)});
-				
-				var color = tinycolor({h: 180 + 180/Math.PI * Math.atan2(out.im, out.re), s: 1, l: 1 - Math.pow(a, Math.hypot(out.re, out.im))});
-				c.fillStyle = color.toRgbString();
-				c.fillRect(x, canvas.height/scale -y, res/scale, res/scale);
-			}
+	
+	//draw each segment
+	for(let x=-transX; x < canvas.width/scale - transX; x+=res/scale) {
+		for(let y=-transY; y < canvas.height/scale - transY; y+=res/scale) {
+			
+			out = func.eval({z : math.complex(x, y)});
+			
+			var color = tinycolor({h: 180 + 180/Math.PI * Math.atan2(out.im, out.re), s: 1, l: 1 - Math.pow(a, Math.hypot(out.re, out.im))});
+			c.fillStyle = color.toRgbString();
+			c.fillRect(x, canvas.height/scale -y, res/scale, res/scale);
 		}
 	}
 	
@@ -190,34 +184,22 @@ function updateRes() {
 
 function updateText() {
 	//render function text
-	var fields = document.getElementsByClassName("field");
-	var displays = document.getElementsByClassName('fieldDisplay');
-	for(let i=0; i<displays.length; i++) {
-		
-		var node = math.parse(fields[i].value);
-		var latex = node.toTex();
-		
-		katex.render(latex, displays[i], {
-			throwOnError: false
-		});
-		
-	}
+	var field = document.getElementsByClassName("field")[0];
+	var display = document.getElementsByClassName('fieldDisplay')[0];
+	
+	var node = math.parse(field.value);
+	var latex = node.toTex();
+	
+	katex.render(latex, display, {
+		throwOnError: false
+	});
+	
+	func = node;
 }
 
 function truncateToDecimals(num, dec = 2) {
 	const calcDec = Math.pow(10, dec);
 	return Math.trunc(num * calcDec) / calcDec;
-}
-
-function addFunction() {
-	
-	document.getElementById("functions").insertAdjacentHTML("beforeend","<div class=\"function-pair\">" +
-					"<textarea oninput=\"updateText();\" class=\"field\">x^2</textarea>" +
-					"<div class=\"fieldDisplay\"></div>" +
-				"</div>" 
-	);
-				
-	return false;
 }
 
 (function animloop(){

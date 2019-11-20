@@ -12,6 +12,7 @@ var scale, transX, transY, res, zoomIntensity;
 var canvas, c;
 var start = null;
 var colors = ["rgb(0, 125, 125)", "rgb(125, 125, 0)", "rgb(125, 0, 125)"];
+var functions = [math.parse("x^2")];
 
 function init() {
 	res = 5.0;
@@ -164,7 +165,7 @@ function render() {
 	//draw graphs
 	for(let i=0; i<fields.length; i++) {
 		
-		var f = math.parse(fields[i].value);
+		var f = functions[i];
 		
 		c.strokeStyle = colors[i % colors.length];
 		c.moveTo(0, (canvas.height-f.eval({x: 0}))/scale);
@@ -186,7 +187,10 @@ function updateText() {
 	//render function text
 	var fields = document.getElementsByClassName("field");
 	var displays = document.getElementsByClassName('fieldDisplay');
+	functions = [];
 	for(let i=0; i<displays.length; i++) {
+		
+		
 		
 		var node = math.parse(fields[i].value);
 		var latex = node.toTex();
@@ -197,6 +201,8 @@ function updateText() {
 		});
 		
 		console.log(latex);
+		
+		functions.push(node);
 		
 	}
 }
