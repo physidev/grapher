@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Grapher</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.4.2/math.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.css"
+        integrity="sha384-bsHo4/LA+lkZv61JspMDQB9QP1TtO4IgOf2yYS+J6VdAYLVyx1c3XKcsHh0Vy8Ws" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.js"
+        integrity="sha384-4z8mjH4yIpuK9dIQGR1JwbrfYsStrNK6MP+2Enhue4eyo0XlBDXOIPc8b6ZU0ajz"
+        crossorigin="anonymous"></script>
+
+    <script src="three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script src="3D.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="init();">
+    <div id="content">
+        <div id="canvas"></div>
+        <div id="functions">
+            <h1 id="title">3D Real Graph</h1>
+            <a onclick="addFunction(); return false;" id="add">Add more functions</a>
+            <div class="function-pair">
+                <textarea oninput="updateText();updateScene();" class="field">z</textarea>
+                <div class="fieldDisplay"></div>
+            </div>
+        </div>
+            
+    </div>
+    <div id="stats"></div>
+    <div id="settings">
+        <input type="range" min="8" max="64" value="3" class="slider" id="resolution" onchange="updateRes();updateScene(); return false;" oninput="updateRes(); return false;">
+    </div>
+</body>
+</html>

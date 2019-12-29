@@ -2,8 +2,6 @@
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
-(function(Math) {
-
 var trimLeft = /^\s+/,
     trimRight = /\s+$/,
     tinyCounter = 0,
@@ -1191,5 +1189,3 @@ else if (typeof define === 'function' && define.amd) {
 else {
     window.tinycolor = tinycolor;
 }
-
-})(Math);

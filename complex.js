@@ -21,7 +21,7 @@ function init() {
 	transX = 2.0;
 	transY = 2.0;
 	zoomIntensity = 0.1;
-	a = 0.75;
+	a = 0.85;
 	
 	var drag = false;
 	var dragStart;
@@ -86,12 +86,6 @@ function init() {
 	
 	document.getElementById('canvas').onwheel = function() { return false; }
 	
-	var resSlider = document.getElementById('resolution');
-	resSlider.addEventListener("input", event => {
-		console.log("Hello");
-		res = this.value;
-	});
-	
 	updateText();
 }
 
@@ -103,18 +97,15 @@ function render() {
 	c.translate(transX, -transY);
 	c.font = "15px Arial";
 	
-	//get function
-	var fields = document.getElementsByClassName('field');
-	
 	c.lineWidth = 4/scale;
-	
+	var color;
 	//draw each segment
 	for(let x=-transX; x < canvas.width/scale - transX; x+=res/scale) {
-		for(let y=-transY; y < canvas.height/scale - transY; y+=res/scale) {
+		for(let y=-transY + res/scale; y < canvas.height/scale - transY + res/scale; y+=res/scale) {
 			
 			out = func.eval({z : math.complex(x, y)});
 			
-			var color = tinycolor({h: 180 + 180/Math.PI * Math.atan2(out.im, out.re), s: 1, l: 1 - Math.pow(a, Math.hypot(out.re, out.im))});
+			color = tinycolor({h: 180 + 180/Math.PI * Math.atan2(out.im, out.re), s: 1, l: 1 - Math.pow(a, Math.hypot(out.re, out.im))});
 			c.fillStyle = color.toRgbString();
 			c.fillRect(x, canvas.height/scale -y, res/scale, res/scale);
 		}
@@ -136,7 +127,7 @@ function render() {
 	
 		if(x % (5*grade) == 0) {
 			c.scale(1/scale, 1/scale);
-			c.fillText(truncateToDecimals(x, scaleExponent>1 ? scaleExponent : 1), scale*x, canvas.height - 2);
+			c.fillText(truncateToDecimals(x, scaleExponent > 1 ? scaleExponent : 1), scale*x, canvas.height - 2);
 			c.scale(scale, scale);
 		}
 		
@@ -194,7 +185,7 @@ function updateText() {
 		throwOnError: false
 	});
 	
-	func = node;
+	func = node.compile();
 }
 
 function truncateToDecimals(num, dec = 2) {
