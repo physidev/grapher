@@ -7,6 +7,7 @@ body {
 	color:black;
 	font-family:Helvetica;
 	overflow:hidden;
+	height:100%;
 }
 #graph {
 	background:#EEEEEE;
@@ -14,24 +15,25 @@ body {
 	top:0;
 	left:0;
 	display:block;
+	width:100%;
+	height:100%;
 }
 
 #title {
 	width:100%;
-	background:white;
+	background:#012980;
 	box-shadow: 0 0 5px 2px gray;
-	border-radius:5px;
 	margin-top:5px;
 	margin-bottom:0px;
 	padding:5px;
 	text-align:center;
+	color:white;
 }
 
 #add {
 	width:100%;
 	background:white;
 	box-shadow: 0 0 5px 2px gray;
-	border-radius:5px;
 	margin-top:5px;
 	padding:5px;
 	font-size:25px;
@@ -55,9 +57,10 @@ body {
 .function-pair {
 	background:white;
 	box-shadow: 0 0 5px 2px gray;
-	border-radius:5px;
 	margin-top:5px;
+	height:10%;
 }
+
 .field, .fieldDisplay {
 	border:none;
 	font-size:25px;
@@ -67,10 +70,54 @@ body {
 	margin:0;
 	background:none;
 }
+
+.fieldDisplay {
+	display:block;
+}
+
 .field {
-	overflow:hidden;
+	display:none;
 	resize:none;
-	border-bottom:1px black solid;
+	overflow:hidden;
+}
+
+.function-pair:hover .fieldDisplay, .field:focus + .fieldDisplay {
+	display:none;
+}
+
+.function-pair:hover .field, .field:focus {
+	display:block;
+	height:100%;
+}
+
+.display {
+	position:relative;
+}
+
+.close, .hide {
+	position:absolute;
+	display:block;
+	right:0;
+	height:50%;
+	width:auto;
+	padding:5px;
+}
+
+.hide {
+	bottom:0;
+}
+
+.close {
+	top:0;
+}
+
+.close:hover, .hide:hover {
+	background:#EFEFEF;
+}
+
+
+.field {
+	max-height:1%;
 }
 
 #stats {
@@ -79,8 +126,47 @@ body {
 	left:0;
 }
 
-#settings {
+#options {
+	background:white;
+	margin-right:5px;
+	margin-bottom:5px;
+	box-shadow: 0 0 5px 2px gray;
 	position:absolute;
 	bottom:0;
 	right:0;
 }
+
+#button {
+	background:#012980;
+	font-size:20px;
+	padding:10px;
+	display:block;
+	cursor:pointer;
+	color:white;
+}
+
+#button:hover {
+	background:#011e5c;
+}
+
+#settings {
+	border-bottom:#444 solid 1px;
+	padding:10px;
+	display:block;
+	opacity:1;
+}
+
+#settings.hidden {
+	display:none;
+}
+
+/* https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+		 -moz-user-select: none; /* Old versions of Firefox */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Opera and Firefox */
+  }

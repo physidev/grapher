@@ -193,6 +193,14 @@ function truncateToDecimals(num, dec = 2) {
 	return Math.trunc(num * calcDec) / calcDec;
 }
 
+function toggleOptions() {
+	var element = document.getElementById("settings");
+	if(element.classList.contains("hidden"))
+		element.classList = [];
+	else
+		element.classList = ["hidden"];
+}
+
 (function animloop(){
   requestAnimFrame(animloop);
   render();

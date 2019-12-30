@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="real.js"></script>
 </head>
 
-<body onload="init();">
+<body onload="init();" class="noselect">
 	<div id="content">
 		<canvas id="graph">
 			Uh oh, you don't support canvas
@@ -21,17 +21,19 @@
 		<div id="functions">
 			<h1 id="title">2D Real Graph</h1>
 			<a onclick="addFunction(); return false;" id="add">Add more functions</a>
-			<div class="function-pair">
-				<textarea oninput="updateText();" class="field">x^2</textarea>
-				<div class="fieldDisplay"></div>
-			</div>
 		</div>
 
 	</div>
 	<div id="stats"></div>
-	<div id="settings">
-		<input type="range" min="5" max="100" value="3" class="slider" id="resolution"
-			onchange="updateRes(); return false;" oninput="updateRes(); return false;">
+	<div id="options">
+		<div id="settings">
+			<div class="setting">
+				<div class="name">Resolution</div>
+				<input type="range" min="5" max="100" value="3" class="slider" id="resolution"
+					onchange="updateRes(); return false;" oninput="updateRes(); return false;">
+			</div>
+		</div>
+		<div id="button" onclick="toggleOptions();">Options</div>
 	</div>
 </body>
 

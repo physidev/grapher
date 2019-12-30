@@ -1,6 +1,6 @@
-var functions = [math.parse("z*x^2")];
-var zWidth = 2;
-var xWidth = 2;
+var functions = [math.parse("y*x^2")];
+var yWidth = 5;
+var xWidth = 5;
 var scene;
 var resolution = 8;
 
@@ -9,6 +9,7 @@ function init() {
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
     document.getElementById("content").replaceChild(renderer.domElement, document.getElementById("canvas"));
 
     camera.position.z = 5;
@@ -33,9 +34,9 @@ function updateScene() {
     var f = functions[0];
 
     var geometry = new THREE.Geometry();
-    for(let z=-zWidth; z<=zWidth; z += 1/resolution) {
+    for(let y=-yWidth; y<=yWidth; y += 1/resolution) {
         for(let x=-xWidth; x<=xWidth; x += 1/resolution) {
-            geometry.vertices.push(new THREE.Vector3(x, f.eval({x: x, z: z}), z));
+            geometry.vertices.push(new THREE.Vector3(x, f.eval({x: x, y: y}), y));
         }
     }
     
@@ -53,7 +54,7 @@ function updateScene() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xEEEEEE);
 
-    var gridHelper = new THREE.GridHelper(4, 4);
+    var gridHelper = new THREE.GridHelper(2 * xWidth, 2 * xWidth);
     scene.add(gridHelper);
 
     var axesHelper = new THREE.AxesHelper(2);
@@ -101,6 +102,10 @@ function updateRes() {
 	resolution = document.getElementById("resolution").value;
 }
 
+function updateXYRange() {
+    xWidth = yWidth = document.getElementById("xyRange").value;
+}
+
 function addFunction() {
 	
 	document.getElementById("functions").insertAdjacentHTML("beforeend","<div class=\"function-pair\">" +
@@ -110,4 +115,12 @@ function addFunction() {
 	);
 				
 	return false;
+}
+
+function toggleOptions() {
+	var element = document.getElementById("settings");
+	if(element.style.display === "none")
+		element.style.display = "block";
+	else
+		element.style.display = "none";
 }

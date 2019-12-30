@@ -26,22 +26,34 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="init();">
+<body onload="init();" class="noselect">
     <div id="content">
         <div id="canvas"></div>
         <div id="functions">
             <h1 id="title">3D Real Graph</h1>
             <a onclick="addFunction(); return false;" id="add">Add more functions</a>
             <div class="function-pair">
-                <textarea oninput="updateText();updateScene();" class="field">z</textarea>
+                <textarea oninput="updateText();updateScene();" class="field">y*x^2</textarea>
                 <div class="fieldDisplay"></div>
             </div>
         </div>
             
     </div>
     <div id="stats"></div>
-    <div id="settings">
-        <input type="range" min="8" max="64" value="3" class="slider" id="resolution" onchange="updateRes();updateScene(); return false;" oninput="updateRes(); return false;">
-    </div>
+	<div id="options">
+		<div id="settings" style="display:none;">
+			<div class="setting">
+				<div class="name">xy Range</div>
+				<input type="range" min="1" max="20" value="3" class="slider" id="xyRange"
+					onchange="updateXYRange(); return false;" oninput="updateXYRange();updateScene(); return false;">
+			</div>
+			<div class="setting">
+				<div class="name">Resolution</div>
+				<input type="range" min="1" max="32" value="3" class="slider" id="resolution"
+					onchange="updateRes(); return false;" oninput="updateRes();updateScene(); return false;">
+			</div>
+		</div>
+		<div id="button" onclick="toggleOptions();">Options</div>
+	</div>
 </body>
 </html>
