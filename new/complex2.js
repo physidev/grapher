@@ -28,10 +28,15 @@ function a2g(n) {
         case 'tan': return `ctan(${a2g(n.children[0])})`;
         case 'log': return `clog(${a2g(n.children[0])})`;
         case 'exp': return `cexp(${a2g(n.children[0])})`;
-        case '\\pi': return 'PI';
+        case '\\pi': return 'vec2(PI, 0.0)';
+        case 'e': return 'vec2(E, 0.0)';
         case 'i': return 'I';
+        case 'z': return 'z';
         default:
-            return n.op;
+            if(n.op.includes('.'))
+                return `vec2(${n.op}, 0.0)`;
+            else
+                return `vec2(${n.op}.0, 0.0)`;
     }
 }
 
@@ -72,6 +77,7 @@ function initProgram(gl, cFunction) {
     `;
     const fsSource = `
         #define PI 3.1415926538
+        #define E  2.7182818285
         #define I vec2(0.0, 1.0)
 
         precision highp float;
