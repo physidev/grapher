@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Grapher</title>
+	<link href="style.css" rel="stylesheet">
+
+	<!-- MATHQUILL -->
+	<link rel="stylesheet" href="mathquill/mathquill-basic.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="mathquill/mathquill-basic.js"></script>
+	<script>
+		var MQ = MathQuill.getInterface(2);
+		MQ.config({
+			autoCommands: 'pi zeta sqrt eta',
+		})
+	</script>
+	<script type="text/javascript" src="parser/dist/parser.bundle.js"></script>
+	
+    <script type="text/javascript" src="hammer.js"></script>
+	<script type="text/javascript" src="gl-matrix-min.js"></script>
+</head>
+
+<body>
+	<h2>Complex Grapher 2.0</h2>
+
+	<h4>Enter a math expression:</h4>
+	<p><span id="mathinput"
+			style="width:100%; height:50px; display:flex; align-items: center; padding-left:10px;">z</span></p>
+
+	<h4>Your input:</h4>
+	<p id="latex" style="font-family:monospace;"></p>
+
+	<h4>AST of your input:</h4>
+	<pre id="ast" style="font-family:monospace;"></pre>
+
+	<h4>Generated shader function:</h4>
+	<pre id="shader" style="font-family:monospace;"></pre>
+
+	<h4>Rendered to Canvas:</h4>
+	<canvas id="glcanvas" width="1280" height="960"></canvas>
+	<p id="canvas-debug" style="font-family: monospace;"></p>
+	<script type="text/javascript" src="complex2.js"></script>
+</body>
+
+</html>
