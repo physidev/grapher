@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Complex Grapher</title>
+	<link href="style.css" rel="stylesheet">
+
+	<!-- MATHQUILL -->
+	<link rel="stylesheet" href="mathquill/mathquill-basic.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="mathquill/mathquill-basic.js"></script>
+	<script>
+		var MQ = MathQuill.getInterface(2);
+		MQ.config({
+			autoCommands: 'pi',
+		})
+	</script>
+
+	<script type="text/javascript" src="parser/dist/parser.bundle.js"></script>
+	<script type="text/javascript" src="hammer.js"></script>
+	<script type="text/javascript" src="gl-matrix-min.js"></script>
+	<script type="text/javascript">let demo = false;</script>
+</head>
+
+<body>
+	<canvas id="glcanvas" width="1280" height="960"></canvas>
+	<p id="canvas-debug" style="font-family: monospace;"></p>
+
+	<div id="input-area">
+		<div id="input-label">
+			<i>Enter an expression in <span style="font-family:serif;font-size:18px;">z</span>.</i>
+		</div>
+		<div id="input"><span id="mathinput"
+				style="height:50px; display:flex; align-items: center; padding-left:10px;">z</span></div>
+	</div>
+
+	<div id="footer">
+		<div id="left"><b>complex grapher</b> by physidev</div>
+		<div id="right" style="font-size:12px;">v2.0.0 - <a id="demo-link" href="demo.html">how it works</a></div>
+	</div>
+
+
+
+	<script type="text/javascript" src="complex.js"></script>
+</body>
+
+</html>

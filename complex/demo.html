@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Grapher demo</title>
+
+    <!-- MATHQUILL -->
+    <link rel="stylesheet" href="mathquill/mathquill-basic.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="mathquill/mathquill-basic.js"></script>
+    <script>
+        var MQ = MathQuill.getInterface(2);
+        MQ.config({
+            autoCommands: 'pi',
+        })
+    </script>
+    <script type="text/javascript" src="parser/dist/parser.bundle.js"></script>
+
+    <script type="text/javascript" src="hammer.js"></script>
+    <script type="text/javascript" src="gl-matrix-min.js"></script>
+    <script type="text/javascript">let demo = true;</script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+
+        .code {
+            margin-left: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>A look inside the complex grapher</h2>
+
+    <p>Enter a mathematical expression in the box below:</p>
+    <p><span id="mathinput"
+            style="width:100%; height:50px; display:flex; align-items: center; padding-left:10px;">z</span></p>
+
+    <p>Below is the string the program receives from the math input box above, in LaTeX:</p>
+    <p class="code" id="latex" style="font-family:monospace;"></p>
+
+    <p>A lexer tokenizes the strings, and a parser generates an <a
+            href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">abstract syntax tree</a> (AST) representing the
+        expression:</p>
+    <pre class="code" id="ast" style="font-family:monospace;"></pre>
+
+    <p>From the AST, the program rewrites the tree into a GLSL function that can be run in a WebGL fragment shader:</p>
+    <pre class="code" id="shader" style="font-family:monospace;"></pre>
+
+    <p>Finally, WebGL uses the generated shader to display the correct colors to an interactive HTML5 canvas element:
+    </p>
+    <canvas id="glcanvas" width="640" height="480"></canvas>
+    <p id="canvas-debug" style="font-family: monospace;"></p>
+    <script type="text/javascript" src="complex.js"></script>
+</body>
+
+</html>

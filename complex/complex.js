@@ -1,12 +1,10 @@
 const { vec2, vec3, mat3, mat4 } = glMatrix;
 
-let viewSize = {
-    height: 4.8,
-    width: 6.4
-}
 let origin = {
-    x: 2.4, y: 3.2
+    x: 6.4, y: 4.8
 };
+let viewSize = { width: 12.8, height: 9.6 };
+let grid = false;
 const zoomIntensity = 0.05;
 let gl, program, locations, buffers;
 
@@ -33,7 +31,7 @@ function a2g(n) {
         case 'i': return 'I';
         case 'z': return 'z';
         default:
-            if(n.op.includes('.'))
+            if (n.op.includes('.'))
                 return `vec2(${n.op}, 0.0)`;
             else
                 return `vec2(${n.op}.0, 0.0)`;
@@ -161,12 +159,14 @@ function initProgram(gl, cFunction) {
             float radius = length(coords);
             float C = 1.0 / (radius + 1.0);
 
-            vec3 color = oklab2rgb(vec3( radius/(radius + 1.0), 0.25 * cos(angle), 0.25 * sin(angle) ));
+
+            ${grid ?
+                `vec3 color = vec3(C * pow(cos(2.0 * PI * coords.x), 100.0), C * pow(cos(2.0 * PI * coords.y), 100.0), 0);` :
+                `vec3 color = oklab2rgb(vec3( radius/(radius + 1.0), 0.25 * cos(angle), 0.25 * sin(angle) ));`
+            }
+
 
             // vec3 color = hsb2rgb(vec3( 0.5*angle/PI + 0.5, radius, 1.0));
-
-            // grid lines
-            // vec3 color = vec3(C * pow(cos(2.0 * PI * coords.x), 10.0), C * pow(cos(2.0 * PI * coords.y), 10.0), 0);
 
             gl_FragColor = vec4(color, 1);
         }
@@ -244,21 +244,28 @@ function main() {
         console.error('No webgl!');
         return;
     }
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    viewSize = { height: 10, width: rect.width / rect.height * 10 };
+    origin = { y: 5, x: rect.width / rect.height * 5 };
 
+    // math input
     const inputSpan = document.getElementById('mathinput');
     var inputMathField = MQ.MathField(inputSpan, {
         handlers: {
             enter: () => {
                 const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');
-                document.getElementById('latex').innerText = enteredMath;
-
                 const ast = MathParser.parse(enteredMath);
-                document.getElementById('ast').innerText = JSON.stringify(ast, null, '  ');
+                const func = generateShaderFunction(ast);
 
-                const s = generateShaderFunction(ast);
-                document.getElementById('shader').innerText = s;
+                ({ program, locations, buffers } = initProgram(gl, func));
 
-                ({ program, locations, buffers } = initProgram(gl, s));
+                if (demo) {
+                    document.getElementById('latex').innerText = enteredMath;
+                    document.getElementById('ast').innerText = JSON.stringify(ast, null, '  ');
+                    document.getElementById('shader').innerText = func;
+                }
             }
         }
     });
@@ -313,20 +320,22 @@ function main() {
         origin.x += (mouseU - mouseU * zoom) * viewSize.width;
         origin.y += (mouseV - mouseV * zoom) * viewSize.height;
 
-        // document.getElementById('canvas-debug').innerText = `x: ${mouseNewX}\ny: ${mouseNewY}`;
+        // document.getElementById('canvas-debug').innerText = `x: ${ mouseNewX } \ny: ${ mouseNewY } `;
     });
 
-    
+
+    // initialize function
     const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');
-    document.getElementById('latex').innerText = enteredMath;
-
     const ast = MathParser.parse(enteredMath);
-    document.getElementById('ast').innerText = JSON.stringify(ast, null, '  ');
+    const func = generateShaderFunction(ast);
 
-    const s = generateShaderFunction(ast);
-    document.getElementById('shader').innerText = s;
+    ({ program, locations, buffers } = initProgram(gl, func));
 
-    ({ program, locations, buffers } = initProgram(gl, s));
+    if (demo) {
+        document.getElementById('latex').innerText = enteredMath;
+        document.getElementById('ast').innerText = JSON.stringify(ast, null, '  ');
+        document.getElementById('shader').innerText = func;
+    }
 
     (function animloop() {
         requestAnimFrame(animloop);
@@ -335,5 +344,3 @@ function main() {
 }
 
 main();
-
-
