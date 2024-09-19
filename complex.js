@@ -14,6 +14,9 @@ var canvas, c;
 var start = null;
 var colors = ["rgb(0, 125, 125)", "rgb(125, 125, 0)", "rgb(125, 0, 125)"];
 var func = math.parse("z");
+var color, input = {h: 0, s: 1, l: 0, z: 0};
+var out;
+var scaleExponent, grade;
 
 function init() {
 	res = 30;
@@ -32,6 +35,7 @@ function init() {
 	canvas.height = window.innerHeight;
 	
 	c = canvas.getContext('2d');
+	c.font = "15px Arial";
 	
 	canvas.addEventListener('mousedown', event => {
 		dragStart = {
@@ -95,28 +99,38 @@ function render() {
 	c.clearRect(0, 0, canvas.width, canvas.height);
 	c.scale(scale, scale);
 	c.translate(transX, -transY);
-	c.font = "15px Arial";
 	
 	c.lineWidth = 4/scale;
-	var color;
 	//draw each segment
+	let pieces = 0;
+	let mathTime = 0;
+	let renderTime = 0;
 	for(let x=-transX; x < canvas.width/scale - transX; x+=res/scale) {
 		for(let y=-transY + res/scale; y < canvas.height/scale - transY + res/scale; y+=res/scale) {
-			
-			out = func.eval({z : math.complex(x, y)});
-			
-			color = tinycolor({h: 180 + 180/Math.PI * Math.atan2(out.im, out.re), s: 1, l: 1 - Math.pow(a, Math.hypot(out.re, out.im))});
+
+			mathTime -= window.performance.now();
+			input.z = math.complex(x, y);
+			out = func.eval(input);
+			input.h = 180 + 180/Math.PI * Math.atan2(out.im, out.re);
+			input.l = 1 - Math.pow(a, Math.hypot(out.re, out.im));
+			mathTime += window.performance.now(); 
+
+			renderTime -= window.performance.now();
+			color = tinycolor(input);
 			c.fillStyle = color.toRgbString();
 			c.fillRect(x, canvas.height/scale -y, res/scale, res/scale);
+			renderTime += window.performance.now();
+			pieces++;
 		}
 	}
+	console.log(pieces + " pieces, math: " + 1000*mathTime/pieces + "us/piece, render: " + 1000*renderTime/pieces + "us/pieces");
 	
 	//draw gridlines
 	c.strokeStyle = 'rgb(150,150,150)';
 	c.lineWidth = 1/scale;
 	
-	var scaleExponent = Number.parseFloat(scale.toExponential(1).substring(4))-1;
-	var grade = Math.pow(10, -scaleExponent);
+	scaleExponent = Number.parseFloat(scale.toExponential(1).substring(4))-1;
+	grade = Math.pow(10, -scaleExponent);
 	
 	
 	document.getElementById('stats').innerHTML = 'scale: ' + scale + '<br>transX: ' + transX + '<br>transY: ' + transY + '<br>scaleExponent: ' + scaleExponent + '<br>grade: ' + grade;
@@ -167,6 +181,7 @@ function render() {
 	c.lineTo(canvas.width/scale - transX, canvas.height/scale);
 	c.closePath();
 	c.stroke();
+	
 }
 
 function updateRes() {

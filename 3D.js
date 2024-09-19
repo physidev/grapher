@@ -52,7 +52,7 @@ function updateScene() {
     geometry.computeVertexNormals();
     
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xEEEEEE);
+    scene.background = new THREE.Color(0xFFFFFF);
 
     var gridHelper = new THREE.GridHelper(2 * xWidth, 2 * xWidth);
     scene.add(gridHelper);

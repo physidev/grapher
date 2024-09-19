@@ -3,14 +3,14 @@
 }
 
 body {
-	background:#DDDDDD;
+	background:#FFFFFF;
 	color:black;
 	font-family:Helvetica;
 	overflow:hidden;
 	height:100%;
 }
 #graph {
-	background:#EEEEEE;
+	background:#FFFFFF;
 	position:absolute;
 	top:0;
 	left:0;

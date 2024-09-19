@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "antlr4": "^4.13.2"
+  },
+  "type": "module",
+  "name": "parser",
+  "version": "1.0.0",
+  "main": "ASTparser.js",
+  "devDependencies": {
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
