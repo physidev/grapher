@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Complex Grapher</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding-left: 10px;
+            height: 100%;
+            width: 100%;
+            position:absolute;
+            display:flex;
+            justify-content: center;
+        }
+
+        #content {
+            max-width: 530px;
+        }
+
+        h2 {
+            margin-bottom: 5px;
+        }
+
+        a {
+            color: #012980;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div id="content">
+        <h2>grapher - an interactive web graphing utility.</h2>
+        <h3><a href="https://physidev.github.io/grapher/real/">Real grapher</a></h3>
+        <p>
+            Graphs arbitrarily many functions \(f: \mathbb{R} \longrightarrow \mathbb{R}\), in terms of a variable
+            \(x\). It supports any function allowed by <a href="https://mathjs.org/">math.js</a>, which does the parsing
+            for the math expressions. <a href="https://physidev.github.io/grapher/real/"><b>Try it out!</b></a>
+        </p>
+        <br/>
+        <h3><a href="https://physidev.github.io/grapher/complex/">Complex grapher</a></h3>
+        <p>
+            Graphs functions of the form \(f: \mathbb{C} \longrightarrow \mathbb{C}\) using <a
+                href="https://en.wikipedia.org/wiki/Domain_coloring">domain coloring</a>. I wrote a custom parser for
+            this utility, so fewer functions are supported. <a href="https://physidev.github.io/grapher/complex/"><b>Try it out!</b></a>
+        </p>
+        <br/>
+
+        <h3><a href="https://physidev.github.io/grapher/3D/">3D real grapher</a></h3>
+        <p>
+            Graphs functions of the form \(f: \mathbb{R}^2 \longrightarrow \mathbb{R}\), written in terms of the
+            variables \(x\) and \(y\). It supports any function allowed by <a href="https://mathjs.org/">math.js</a>,
+            which does the parsing for the math expressions. <a href="https://physidev.github.io/grapher/3D/"><b>Try it out!</b></a>
+        </p>
+        <br/>
+    </div>
+</body>
+
+</html>
