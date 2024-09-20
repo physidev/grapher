@@ -4,13 +4,17 @@
 <head>
     <title>Complex Grapher</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: sans-serif;
             padding-left: 10px;
             height: 100%;
             width: 100%;
-            position:absolute;
-            display:flex;
+            position: absolute;
+            display: flex;
             justify-content: center;
         }
 
@@ -37,29 +41,31 @@
 <body>
     <div id="content">
         <h2>grapher - an interactive web graphing utility.</h2>
-        <br/>
+        <br />
         <h3><a href="https://physidev.github.io/grapher/real/">Real grapher</a></h3>
         <p>
             Graphs arbitrarily many functions \(f: \mathbb{R} \longrightarrow \mathbb{R}\), in terms of a variable
             \(x\). It supports any function allowed by <a href="https://mathjs.org/">math.js</a>, which does the parsing
             for the math expressions. <a href="https://physidev.github.io/grapher/real/"><b>Try it out!</b></a>
         </p>
-        <br/>
+        <br />
         <h3><a href="https://physidev.github.io/grapher/complex/">Complex grapher</a></h3>
         <p>
             Graphs functions of the form \(f: \mathbb{C} \longrightarrow \mathbb{C}\) using <a
                 href="https://en.wikipedia.org/wiki/Domain_coloring">domain coloring</a>. I wrote a custom parser for
-            this utility, so fewer functions are supported. <a href="https://physidev.github.io/grapher/complex/"><b>Try it out!</b></a>
+            this utility, so fewer functions are supported. <a href="https://physidev.github.io/grapher/complex/"><b>Try
+                    it out!</b></a>
         </p>
-        <br/>
+        <br />
 
         <h3><a href="https://physidev.github.io/grapher/3D/">3D real grapher</a></h3>
         <p>
             Graphs functions of the form \(f: \mathbb{R}^2 \longrightarrow \mathbb{R}\), written in terms of the
             variables \(x\) and \(y\). It supports any function allowed by <a href="https://mathjs.org/">math.js</a>,
-            which does the parsing for the math expressions. <a href="https://physidev.github.io/grapher/3D/"><b>Try it out!</b></a>
+            which does the parsing for the math expressions. <a href="https://physidev.github.io/grapher/3D/"><b>Try it
+                    out!</b></a>
         </p>
-        <br/>
+        <br />
     </div>
 </body>
 
