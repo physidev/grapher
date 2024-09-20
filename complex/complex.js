@@ -1,5 +1,3 @@
-const { vec2, vec3, mat3, mat4 } = glMatrix;
-
 let origin = {
     x: 6.4, y: 4.8
 };

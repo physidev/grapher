@@ -1,8 +1,11 @@
 # grapher
-Online graphing utility
-## 2D real number graph
-Graphs functions in terms of x. Supports all functions supported by math.js
-## 2D complex number graph
-Graphs functions in terms of z, a complex number using domain coloring. Supports all functions supported by math.js
-## 3D real number graph
-Graphs functions in terms of x and z. Supports all functions supported by math.js
+Online interactive graphing utility.
+
+## Real grapher
+Graphs arbitrarily many functions $f: \mathbb{R} \longrightarrow \mathbb{R}$, in terms of a variable $x$. It supports any function allowed by [math.js](https://mathjs.org/), which does the parsing for the math expressions. [Try it out!](https://physidev.github.io/grapher/real/)
+
+## Complex grapher
+Graphs functions of the form $f: \mathbb{C} \longrightarrow \mathbb{C}$ using [domain coloring]. I wrote a custom parser for this utility, so fewer functions are supported. [Try it out!](https://physidev.github.io/grapher/complex/)
+
+## 3D real grapher
+Graphs functions of the form $f: \mathbb{R^2} \longrightarrow \mathbb{R}$, written in terms of the variables $x$ and $y$. It supports any function allowed by [math.js](https://mathjs.org/), which does the parsing for the math expressions. [Try it out!](https://physidev.github.io/grapher/3D/)
