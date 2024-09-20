@@ -1,0 +1,172 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+	background:#FFFFFF;
+	color:black;
+	font-family:Helvetica;
+	overflow:hidden;
+	height:100%;
+}
+#graph {
+	background:#FFFFFF;
+	position:absolute;
+	top:0;
+	left:0;
+	display:block;
+	width:100%;
+	height:100%;
+}
+
+#title {
+	width:100%;
+	background:#012980;
+	box-shadow: 0 0 5px 2px gray;
+	margin-top:5px;
+	margin-bottom:0px;
+	padding:5px;
+	text-align:center;
+	color:white;
+}
+
+#add {
+	width:100%;
+	background:white;
+	box-shadow: 0 0 5px 2px gray;
+	margin-top:5px;
+	padding:5px;
+	font-size:25px;
+	cursor:pointer;
+	text-align:center;
+}
+
+#add:hover {
+	background:#EFEFEF;
+}
+
+#functions {
+	display:flex;
+	flex-direction:column;
+	position:absolute;
+	top:0;
+	left:0;
+	margin-left:8px;
+	width:15%;
+}
+.function-pair {
+	background:white;
+	box-shadow: 0 0 5px 2px gray;
+	margin-top:5px;
+	height:10%;
+}
+
+.field, .fieldDisplay {
+	border:none;
+	font-size:25px;
+	color:black;
+	width:100%;
+	padding:15px;
+	margin:0;
+	background:none;
+}
+
+.fieldDisplay {
+	display:block;
+}
+
+.field {
+	display:none;
+	resize:none;
+	overflow:hidden;
+}
+
+.function-pair:hover .fieldDisplay, .field:focus + .fieldDisplay {
+	display:none;
+}
+
+.function-pair:hover .field, .field:focus {
+	display:block;
+	height:100%;
+}
+
+.display {
+	position:relative;
+}
+
+.close, .hide {
+	position:absolute;
+	display:block;
+	right:0;
+	height:50%;
+	width:auto;
+	padding:5px;
+}
+
+.hide {
+	bottom:0;
+}
+
+.close {
+	top:0;
+}
+
+.close:hover, .hide:hover {
+	background:#EFEFEF;
+}
+
+
+.field {
+	max-height:1%;
+}
+
+#stats {
+	position:absolute;
+	bottom:0;
+	left:0;
+}
+
+#options {
+	background:white;
+	margin-right:5px;
+	margin-bottom:5px;
+	box-shadow: 0 0 5px 2px gray;
+	position:absolute;
+	bottom:0;
+	right:0;
+}
+
+#button {
+	background:#012980;
+	font-size:20px;
+	padding:10px;
+	display:block;
+	cursor:pointer;
+	color:white;
+}
+
+#button:hover {
+	background:#011e5c;
+}
+
+#settings {
+	border-bottom:#444 solid 1px;
+	padding:10px;
+	display:block;
+	opacity:1;
+}
+
+#settings.hidden {
+	display:none;
+}
+
+/* https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+		 -moz-user-select: none; /* Old versions of Firefox */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Opera and Firefox */
+  }
