@@ -2,7 +2,6 @@ let origin = {
     x: 6.4, y: 4.8
 };
 let viewSize = { width: 12.8, height: 9.6 };
-let gridSpacing = {major: 2, minor: 0.5};
 let grid = false;
 const zoomIntensity = 0.05;
 let gl, program, locations, buffers;
@@ -37,6 +36,10 @@ function a2g(n) {
     }
 }
 
+function gridlineScaleExponent() {
+
+}
+
 function createShader(gl, type, source) {
     const shader = gl.createShader(type);
     gl.shaderSource(shader, source);
@@ -64,22 +67,7 @@ function createProgram(gl, vertexShader, fragmentShader) {
     gl.deleteProgram(program);
 }
 
-function calculateGridSpacing(x) {
-    // largest power of 10 smaller than the screenWidth x
-    s = Math.pow(10, Math.floor(Math.log10(x)));
-    t = s/100;
-
-    if(x > 6.5 * s)
-        return {major: 100 * t, minor: 20 * t}
-    if(x > 2.5 * s)
-        return {major: 50 * t, minor: 10 * t}
-    if(x > 1.3 * s)
-        return {major: 20 * t, minor: 5 * t}
-    return {major: 10 * t, minor: 2 * t}
-} 
-
 function initProgram(gl, cFunction) {
-    gl.getExtension("OES_standard_derivatives");
     const vsSource = `
         attribute vec4 a_position;
 
@@ -88,8 +76,6 @@ function initProgram(gl, cFunction) {
         }
     `;
     const fsSource = `
-      #extension GL_OES_standard_derivatives : enable
-      
         #define PI 3.1415926538
         #define E  2.7182818285
         #define I vec2(0.0, 1.0)
@@ -99,7 +85,6 @@ function initProgram(gl, cFunction) {
         uniform vec2 u_resolution;
         uniform vec2 u_viewSize;
         uniform vec2 u_offset;
-        uniform vec2 u_gridSpacing;
         
         //  Function from Iñigo Quiles
         //  https://www.shadertoy.com/view/MsS3Wc
@@ -168,30 +153,11 @@ function initProgram(gl, cFunction) {
 
         ${cFunction}
 
-        // gridline code from https://observablehq.com/@rreusser/locally-scaled-domain-coloring-part-1-contour-plots
-        float linearstep(float e0, float e1, float x) {
-            return clamp((x-e0) / (e1 - e0), 0.0, 1.0);
-        }
-
-        float triangle(float x, float spacing) {
-            return (0.5 - abs(fract(abs(x) / spacing) - 0.5));
-        }
-
-        float gridline(float coord, float width, float antialiasWidth, float spacing) {
-            float screenSpaceGradient = length(vec2(dFdx(coord), dFdy(coord))) / spacing;
-            return linearstep(
-                width + 0.5 * antialiasWidth,
-                width - 0.5 * antialiasWidth,
-                triangle(coord, spacing) / screenSpaceGradient
-            );
-        }
-
         void main() {
-            vec2 coords = (gl_FragCoord.xy/u_resolution)*u_viewSize + u_offset; 
-            vec2 f = f(coords);
+            vec2 coords = f((gl_FragCoord.xy/u_resolution)*u_viewSize + u_offset);
 
-            float angle = atan(f.y, f.x);
-            float radius = length(f);
+            float angle = atan(coords.y, coords.x);
+            float radius = length(coords);
             float C = 1.0 / (radius + 1.0);
 
 
@@ -203,26 +169,7 @@ function initProgram(gl, cFunction) {
 
             // vec3 color = hsb2rgb(vec3( 0.5*angle/PI + 0.5, radius, 1.0));
 
-            float width = 0.75;
-            float antialiasWidth = 1.0;
-
-            // gridline spacing in complex plane
-            float major = u_gridSpacing.x;
-            float minor = u_gridSpacing.y;
-
-            // major gridlines
-            float majorX = gridline(coords.x, width, 1.5*antialiasWidth, major);
-            float majorY = gridline(coords.y, width, 1.5*antialiasWidth, major);
-
-            // minor gridlines
-            float minorX = 0.25 * gridline(coords.x, width, antialiasWidth, minor);
-            float minorY = 0.25 * gridline(coords.y, width, antialiasWidth, minor);
-
-            float gM = 0.5*max(max(majorX, majorY), max(minorX, minorY));
-
-            float gray = 0.299 * color.x + 0.587 * color.y + 0.114 * color.z;
-
-            gl_FragColor = mix(vec4(color, 1.0), vec4(1.0 - gray, 1.0 - gray, 1.0 - gray, 1.0), gM);
+            gl_FragColor = vec4(color, 1);
         }
     `;
 
@@ -236,7 +183,7 @@ function initProgram(gl, cFunction) {
             resolution: gl.getUniformLocation(program, 'u_resolution'),
             viewSize: gl.getUniformLocation(program, 'u_viewSize'),
             offset: gl.getUniformLocation(program, 'u_offset'),
-            gridSpacing: gl.getUniformLocation(program, 'u_gridSpacing')
+            gridlineScaleExponent: gl.getUniformLocation(program, 'u_gridlineScaleExponent')
         },
         attribute: {
             position: gl.getAttribLocation(program, "a_position")
@@ -284,66 +231,21 @@ function render(gl, program, locations, buffers) {
     gl.uniform2f(locations.uniform.resolution, gl.canvas.width, gl.canvas.height);
     gl.uniform2f(locations.uniform.viewSize, viewSize.width, viewSize.height);
     gl.uniform2f(locations.uniform.offset, -origin.x, -origin.y);
-    gl.uniform2f(locations.uniform.gridSpacing, gridSpacing.major, gridSpacing.minor);
+    gl.uniform1i(locations.uniform.gridlineScaleExponent, 0);
 
     const primitiveType = gl.TRIANGLES;
     const count = 6;
     gl.drawArrays(primitiveType, 0, count);
 }
 
-// // extremely slow
-// function renderGrid(canvas) {
-//     const c = canvas.getContext('2d');
-// 	c.strokeStyle = 'rgb(255,255,255)';
-
-//     // clear canvas
-//     c.setTransform(1, 0, 0, 1, 0, 0);
-// 	c.clearRect(0, 0, canvas.width, canvas.height);
-
-//     c.scale(canvas.width, -canvas.height);
-//     c.translate(0, -1);
-//     c.scale(1/viewSize.width, 1/viewSize.height);
-//     c.translate(origin.x, origin.y);
-    
-//     c.beginPath();
-//     c.moveTo(0, 0);
-//     c.lineTo(0, 1);
-//     c.closePath();
-//     c.stroke();
-
-//     // draw gridlines
-//     c.lineWidth = viewSize.width / canvas.width;
-
-//     // major vertical gridlines
-//     for(let x = Math.ceil(-origin.x); x < -origin.x + viewSize.width; x += 1) {
-//         c.beginPath();
-//         c.moveTo(x, -origin.y);
-//         c.lineTo(x, -origin.y + viewSize.height);
-//         c.closePath();
-//         c.stroke();
-//     }
-
-//     // major horizontal gridlines
-//     for(let y = Math.ceil(-origin.y); y < -origin.y + viewSize.height; y += 1) {
-//         c.beginPath();
-//         c.moveTo(-origin.x, y);
-//         c.lineTo(-origin.y + viewSize.width, y);
-//         c.closePath();
-//         c.stroke();
-//     }
-// }
-
 function main() {
     // INITIALIZATION
     // obtain canvas webgl context
     const canvas = document.querySelector('#glcanvas');
-    const gridCanvas = document.querySelector('#gridcanvas');
+    const gridcanvas = document.querySelector('#gridcanvas');
 
-    gl = canvas.getContext('webgl');
-    if (!gl) {
-        console.error('No webgl!');
-        return;
-    }
+    const regl = createREGL(canvas);
+
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
@@ -371,7 +273,7 @@ function main() {
     });
 
     // motion controls
-    const hammer = new Hammer(gridCanvas);
+    const hammer = new Hammer(gridcanvas);
     let dragging = false, dragStart;
     hammer.on('panstart', event => {
         dragStart = {
@@ -400,7 +302,7 @@ function main() {
 
         dragStart = dragEnd;
     });
-    gridCanvas.addEventListener('wheel', event => {
+    gridcanvas.addEventListener('wheel', event => {
         event.preventDefault();
 
         const wheel = event.deltaY < 0 ? 1 : -1;
@@ -421,9 +323,6 @@ function main() {
         origin.y += (mouseV - mouseV * zoom) * viewSize.height;
 
         // document.getElementById('canvas-debug').innerText = `x: ${ mouseNewX } \ny: ${ mouseNewY } `;
-
-        gridSpacing = calculateGridSpacing(viewSize.width);
-        console.log(`viewWidth: ${viewSize.width}, major: ${gridSpacing.major},  minor: ${gridSpacing.minor}`)
     });
 
 

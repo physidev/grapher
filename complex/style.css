@@ -12,7 +12,16 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -100000;
+    z-index: 1;
+}
+
+#gridcanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
 }
 
 #input-area {
@@ -58,6 +67,8 @@ body {
     padding: 5px;
     padding-left: 15px;
     padding-right: 15px;
+
+    z-index: 100;
 }
 
 #demo-link {
