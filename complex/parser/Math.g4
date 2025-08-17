@@ -2,10 +2,14 @@ grammar Math;
 
 prog: expr EOF;
     
-expr: dchild=frac                                   # passExpr
+expr: schild=sum                                    # passExpr
+    | dchild=frac                                   # passExpr
     | pchild=prod                                   # passExpr  
     | op=(OP_ADD|OP_MIN) expr                       # unaryExpr 
     | left=expr op=(OP_ADD|OP_MIN) right=expr       # sumDiffExpr
+    ;
+
+sum: '\\sum_{' index=VARIABLE '=' initial=REAL '}{' final=REAL '}' expr
     ;
 
 frac: '\\frac{' left=expr '}{' right=expr '}'
@@ -19,7 +23,7 @@ atom: left=atom op=OP_POW right=atom                # powAtom
     | fchild=func                                   # passAtom
     | '(' echild=expr ')'                           # passAtom  
     | '{' echild=expr '}'                           # passAtom  
-    | val=(REAL | CONSTANT | INPUT)                 # valAtom  
+    | val=(REAL | CONSTANT | VARIABLE)              # valAtom  
     ;
     
 func: '\\' fn_name '(' expr ')';
@@ -48,7 +52,7 @@ FN_EXP:     'exp';
 FN_LOG:     'log';
 
 CONSTANT: 'e' | 'i' | '\\pi';
-INPUT: 'z' | 'x' | 'y';
+VARIABLE: 'j' | 'k' | 'n' | 'm' | 'z' | 'x' | 'y';
 
 REAL: ( '0' | [1-9] [0-9]* ) ('.' [0-9]+ )? ;
 WS: ([\t\r\n] | ' ')+ -> skip;

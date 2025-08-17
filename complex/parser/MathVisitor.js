@@ -30,6 +30,12 @@ export default class MathVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
+	// Visit a parse tree produced by MathParser#sum.
+	visitSum(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by MathParser#frac.
 	visitFrac(ctx) {
 	  return this.visitChildren(ctx);

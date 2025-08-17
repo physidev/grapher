@@ -1153,6 +1153,7 @@ function main() {
 
     // initialize function
     const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');
+	console.log(enteredMath);
     const ast = MathParser.parse(enteredMath);
     const func = generateShaderFunction(ast);
 

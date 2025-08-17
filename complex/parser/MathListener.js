@@ -41,6 +41,15 @@ export default class MathListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
+	// Enter a parse tree produced by MathParser#sum.
+	enterSum(ctx) {
+	}
+
+	// Exit a parse tree produced by MathParser#sum.
+	exitSum(ctx) {
+	}
+
+
 	// Enter a parse tree produced by MathParser#frac.
 	enterFrac(ctx) {
 	}

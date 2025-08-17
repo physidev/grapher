@@ -11,7 +11,7 @@
     <script>
         var MQ = MathQuill.getInterface(2);
         MQ.config({
-            autoCommands: 'pi',
+            autoCommands: 'pi sum'
         })
     </script>
     <script type="text/javascript" src="parser/dist/parser.bundle.js"></script>
@@ -56,8 +56,11 @@
     <p>Finally, WebGL uses the generated shader to display the correct colors to an interactive HTML5 canvas element:
     </p>
     <canvas id="glcanvas" width="640" height="480"></canvas>
+	<canvas id="gridcanvas" width="640" height="480"></canvas>
     <p id="canvas-debug" style="font-family: monospace;"></p>
     <script type="text/javascript" src="complex.js"></script>
+
+    <input id="colorcheck" type="checkbox"/>
 </body>
 
 </html>
