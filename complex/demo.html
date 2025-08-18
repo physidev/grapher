@@ -48,17 +48,16 @@
 
     <p>A lexer tokenizes the strings, and a parser generates an <a
             href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">abstract syntax tree</a> (AST) representing the
-        expression. From the AST, the program rewrites the tree into a GLSL function that can be run in a WebGL fragment shader:</p>
+        expression. From the AST, the program rewrites the tree into a GLSL function that can be run in a WebGL fragment
+        shader:</p>
     <pre class="code" id="shader" style="font-family:monospace;"></pre>
 
     <p>Finally, WebGL uses the generated shader to display the correct colors to an interactive HTML5 canvas element:
     </p>
     <canvas id="glcanvas" width="640" height="480"></canvas>
-	<canvas id="gridcanvas" width="640" height="480"></canvas>
+    <canvas id="gridcanvas" width="640" height="480"></canvas>
     <p id="canvas-debug" style="font-family: monospace;"></p>
     <script type="text/javascript" src="complex.js"></script>
-
-    <input id="colorcheck" type="checkbox"/>
 </body>
 
 </html>
