@@ -48,10 +48,7 @@
 
     <p>A lexer tokenizes the strings, and a parser generates an <a
             href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">abstract syntax tree</a> (AST) representing the
-        expression:</p>
-    <pre class="code" id="ast" style="font-family:monospace;"></pre>
-
-    <p>From the AST, the program rewrites the tree into a GLSL function that can be run in a WebGL fragment shader:</p>
+        expression. From the AST, the program rewrites the tree into a GLSL function that can be run in a WebGL fragment shader:</p>
     <pre class="code" id="shader" style="font-family:monospace;"></pre>
 
     <p>Finally, WebGL uses the generated shader to display the correct colors to an interactive HTML5 canvas element:

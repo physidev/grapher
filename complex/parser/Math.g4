@@ -9,7 +9,7 @@ expr: schild=sum                                    # passExpr
     | left=expr op=(OP_ADD|OP_MIN) right=expr       # sumDiffExpr
     ;
 
-sum: '\\sum_{' index=VARIABLE '=' initial=REAL '}^{' final=REAL '}' summand=expr
+sum:  '\\sum_{' index=VARIABLE '=' initial=REAL '}^{' final=REAL '}' summand=expr
     ;
 
 frac: '\\frac{' left=expr '}{' right=expr '}'

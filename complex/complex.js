@@ -1039,15 +1039,13 @@ function main() {
         handlers: {
             enter: () => {
                 const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');
+				if(demo)
+					document.getElementById('latex').innerText = enteredMath;
                 const func = MathParser.parse(enteredMath);
+				if(demo)
+                    document.getElementById('shader').innerText = func;
 
                 ({ program, locations, buffers } = initProgram(gl, func));
-
-                if (demo) {
-                    document.getElementById('latex').innerText = enteredMath;
-                    document.getElementById('ast').innerText = JSON.stringify(ast, null, '  ');
-                    document.getElementById('shader').innerText = func;
-                }
             }
         }
     });
@@ -1121,16 +1119,14 @@ function main() {
 
     // initialize function
     const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');
-	console.log(enteredMath);
+	if(demo)
+        document.getElementById('latex').innerText = enteredMath;
+
     const func = MathParser.parse(enteredMath);
+	if(demo)
+        document.getElementById('shader').innerText = func;
 
     ({ program, locations, buffers } = initProgram(gl, func));
-
-    if (demo) {
-        document.getElementById('latex').innerText = enteredMath;
-        document.getElementById('ast').innerText = JSON.stringify(func, null, '  ');
-        document.getElementById('shader').innerText = func;
-    }
 
     (function animloop() {
         requestAnimFrame(animloop);

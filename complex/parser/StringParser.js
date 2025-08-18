@@ -11,6 +11,7 @@ class Visitor extends MathVisitor {
     visitProg(ctx) {
         const expr = ctx.expr().accept(this);
         const auxFuncs = this.auxiliaryFunctions.join('\n');
+
         return `
         // AUXILIARY FUNCTIONS
         ${auxFuncs}
@@ -25,7 +26,6 @@ class Visitor extends MathVisitor {
         const index = ctx.VARIABLE().getText();
         const start = ctx.REAL(0).getText();
         const end = ctx.REAL(1).getText();
-
         
         const funcName = `sum_${index}`;
 
@@ -35,8 +35,8 @@ class Visitor extends MathVisitor {
 
         this.auxiliaryFunctions.push(`vec2 ${funcName}(${this.indices.map(i => `vec2 ${i}`).join(', ')}) {
             vec2 temp = vec2(0.0, 0.0);
-            vec2 ${index} = vec2(${start}.0, 0.0);
-            while(${index}.x <= ${end}.0) {
+            vec2 ${index} = vec2(float(${start}), 0.0);
+            while(${index}.x <= float(${end})) {
                 temp += ${summand};
                 ${index} += vec2(1.0, 0.0);
             }
