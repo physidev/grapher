@@ -36,20 +36,6 @@ function createProgram(gl, vertexShader, fragmentShader) {
     gl.deleteProgram(program);
 }
 
-function calculateGridSpacing(x) {
-    // largest power of 10 smaller than the screenWidth x
-    s = Math.pow(10, Math.floor(Math.log10(x)));
-    t = s/100;
-
-    if(x > 6.5 * s)
-        return {major: 100 * t, minor: 20 * t}
-    if(x > 2.5 * s)
-        return {major: 50 * t, minor: 10 * t}
-    if(x > 1.3 * s)
-        return {major: 20 * t, minor: 5 * t}
-    return {major: 10 * t, minor: 2 * t}
-} 
-
 function initProgram(gl, cFunction) {
     gl.getExtension("OES_standard_derivatives");
 
@@ -121,6 +107,20 @@ function render(gl, program, locations, buffers) {
     const count = 6;
     gl.drawArrays(primitiveType, 0, count);
 }
+
+function calculateGridSpacing(x) {
+    // largest power of 10 smaller than the screenWidth x
+    s = Math.pow(10, Math.floor(Math.log10(x)));
+    t = s/100;
+
+    if(x > 6.5 * s)
+        return {major: 100 * t, minor: 20 * t}
+    if(x > 2.5 * s)
+        return {major: 50 * t, minor: 10 * t}
+    if(x > 1.3 * s)
+        return {major: 20 * t, minor: 5 * t}
+    return {major: 10 * t, minor: 2 * t}
+} 
 
 function main() {
     // INITIALIZATION
