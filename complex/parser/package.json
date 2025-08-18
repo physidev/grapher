@@ -5,7 +5,7 @@
   "type": "module",
   "name": "parser",
   "version": "1.0.0",
-  "main": "StringParser.js",
+  "main": "LaTeXParser.js",
   "devDependencies": {
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4"

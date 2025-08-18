@@ -10,15 +10,15 @@ class Visitor extends MathVisitor {
 
     visitProg(ctx) {
         const expr = ctx.expr().accept(this);
-        const auxFuncs = this.auxiliaryFunctions.join('\n');
+        const auxFuncs = this.auxiliaryFunctions.join('\n\n');
 
         return `
-        // AUXILIARY FUNCTIONS
-        ${auxFuncs}
+// AUXILIARY FUNCTIONS
+${auxFuncs}
 
-        vec2 f(vec2 z) {
-            return ${expr};
-        }
+vec2 f(vec2 z) {
+    return ${expr};
+}
         `;
     }
 
@@ -28,20 +28,21 @@ class Visitor extends MathVisitor {
         const end = ctx.REAL(1).getText();
         
         const funcName = `sum_${index}`;
+        const funcParams = this.indices.map(i => `vec2 ${i}`).join(', ');
 
         this.indices.push(index);
         const summand = ctx.summand.accept(this);
         this.indices.pop();
 
-        this.auxiliaryFunctions.push(`vec2 ${funcName}(${this.indices.map(i => `vec2 ${i}`).join(', ')}) {
-            vec2 temp = vec2(0.0, 0.0);
-            vec2 ${index} = vec2(float(${start}), 0.0);
-            while(${index}.x <= float(${end})) {
-                temp += ${summand};
-                ${index} += vec2(1.0, 0.0);
-            }
-            return temp;
-        }`);
+        this.auxiliaryFunctions.push(`vec2 ${funcName}(${funcParams}) {
+    vec2 temp = vec2(0.0, 0.0);
+    vec2 ${index} = vec2(float(${start}), 0.0);
+    while(${index}.x <= float(${end})) {
+        temp += ${summand};
+        ${index} += vec2(1.0, 0.0);
+    }
+    return temp;
+}`);
 
         return `${funcName}(${this.indices.join(', ')})`;
     }
