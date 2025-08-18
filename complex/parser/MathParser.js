@@ -4,32 +4,32 @@ import antlr4 from 'antlr4';
 import MathListener from './MathListener.js';
 import MathVisitor from './MathVisitor.js';
 
-const serializedATN = [4,1,25,97,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,
+const serializedATN = [4,1,26,97,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,
 2,5,7,5,2,6,7,6,2,7,7,7,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,3,1,26,8,1,1,
 1,1,1,1,1,5,1,31,8,1,10,1,12,1,34,9,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,
 2,1,3,1,3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,1,4,3,4,56,8,4,3,4,58,8,4,1,5,
 1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,3,5,71,8,5,1,5,1,5,1,5,5,5,76,8,
 5,10,5,12,5,79,9,5,1,6,1,6,1,6,1,6,1,6,1,6,1,7,1,7,1,7,1,7,1,7,1,7,1,7,1,
-7,3,7,95,8,7,1,7,0,2,2,10,8,0,2,4,6,8,10,12,14,0,2,1,0,11,12,1,0,22,24,105,
+7,3,7,95,8,7,1,7,0,2,2,10,8,0,2,4,6,8,10,12,14,0,2,1,0,12,13,1,0,23,25,105,
 0,16,1,0,0,0,2,25,1,0,0,0,4,35,1,0,0,0,6,44,1,0,0,0,8,57,1,0,0,0,10,70,1,
 0,0,0,12,80,1,0,0,0,14,94,1,0,0,0,16,17,3,2,1,0,17,18,5,0,0,1,18,1,1,0,0,
 0,19,20,6,1,-1,0,20,26,3,4,2,0,21,26,3,6,3,0,22,26,3,8,4,0,23,24,7,0,0,0,
 24,26,3,2,1,2,25,19,1,0,0,0,25,21,1,0,0,0,25,22,1,0,0,0,25,23,1,0,0,0,26,
 32,1,0,0,0,27,28,10,1,0,0,28,29,7,0,0,0,29,31,3,2,1,2,30,27,1,0,0,0,31,34,
 1,0,0,0,32,30,1,0,0,0,32,33,1,0,0,0,33,3,1,0,0,0,34,32,1,0,0,0,35,36,5,1,
-0,0,36,37,5,23,0,0,37,38,5,2,0,0,38,39,5,24,0,0,39,40,5,3,0,0,40,41,5,24,
+0,0,36,37,5,24,0,0,37,38,5,2,0,0,38,39,5,25,0,0,39,40,5,3,0,0,40,41,5,25,
 0,0,41,42,5,4,0,0,42,43,3,2,1,0,43,5,1,0,0,0,44,45,5,5,0,0,45,46,3,2,1,0,
-46,47,5,3,0,0,47,48,3,2,1,0,48,49,5,4,0,0,49,7,1,0,0,0,50,58,3,10,5,0,51,
-55,3,10,5,0,52,56,3,8,4,0,53,54,5,6,0,0,54,56,3,8,4,0,55,52,1,0,0,0,55,53,
+46,47,5,6,0,0,47,48,3,2,1,0,48,49,5,4,0,0,49,7,1,0,0,0,50,58,3,10,5,0,51,
+55,3,10,5,0,52,56,3,8,4,0,53,54,5,7,0,0,54,56,3,8,4,0,55,52,1,0,0,0,55,53,
 1,0,0,0,56,58,1,0,0,0,57,50,1,0,0,0,57,51,1,0,0,0,58,9,1,0,0,0,59,60,6,5,
--1,0,60,71,3,12,6,0,61,62,5,7,0,0,62,63,3,2,1,0,63,64,5,8,0,0,64,71,1,0,
-0,0,65,66,5,9,0,0,66,67,3,2,1,0,67,68,5,4,0,0,68,71,1,0,0,0,69,71,7,1,0,
+-1,0,60,71,3,12,6,0,61,62,5,8,0,0,62,63,3,2,1,0,63,64,5,9,0,0,64,71,1,0,
+0,0,65,66,5,10,0,0,66,67,3,2,1,0,67,68,5,4,0,0,68,71,1,0,0,0,69,71,7,1,0,
 0,70,59,1,0,0,0,70,61,1,0,0,0,70,65,1,0,0,0,70,69,1,0,0,0,71,77,1,0,0,0,
-72,73,10,5,0,0,73,74,5,13,0,0,74,76,3,10,5,6,75,72,1,0,0,0,76,79,1,0,0,0,
-77,75,1,0,0,0,77,78,1,0,0,0,78,11,1,0,0,0,79,77,1,0,0,0,80,81,5,10,0,0,81,
-82,3,14,7,0,82,83,5,7,0,0,83,84,3,2,1,0,84,85,5,8,0,0,85,13,1,0,0,0,86,95,
-5,14,0,0,87,95,5,15,0,0,88,95,5,16,0,0,89,95,5,17,0,0,90,95,5,18,0,0,91,
-95,5,19,0,0,92,95,5,20,0,0,93,95,5,21,0,0,94,86,1,0,0,0,94,87,1,0,0,0,94,
+72,73,10,5,0,0,73,74,5,14,0,0,74,76,3,10,5,6,75,72,1,0,0,0,76,79,1,0,0,0,
+77,75,1,0,0,0,77,78,1,0,0,0,78,11,1,0,0,0,79,77,1,0,0,0,80,81,5,11,0,0,81,
+82,3,14,7,0,82,83,5,8,0,0,83,84,3,2,1,0,84,85,5,9,0,0,85,13,1,0,0,0,86,95,
+5,15,0,0,87,95,5,16,0,0,88,95,5,17,0,0,89,95,5,18,0,0,90,95,5,19,0,0,91,
+95,5,20,0,0,92,95,5,21,0,0,93,95,5,22,0,0,94,86,1,0,0,0,94,87,1,0,0,0,94,
 88,1,0,0,0,94,89,1,0,0,0,94,90,1,0,0,0,94,91,1,0,0,0,94,92,1,0,0,0,94,93,
 1,0,0,0,95,15,1,0,0,0,7,25,32,55,57,70,77,94];
 
@@ -43,13 +43,14 @@ const sharedContextCache = new antlr4.atn.PredictionContextCache();
 export default class MathParser extends antlr4.Parser {
 
     static grammarFileName = "Math.g4";
-    static literalNames = [ null, "'\\sum_{'", "'='", "'}{'", "'}'", "'\\frac{'", 
-                            "'\\cdot'", "'('", "')'", "'{'", "'\\'", "'+'", 
-                            "'-'", "'^'", "'sin'", "'cos'", "'tan'", "'arcsin'", 
-                            "'arccos'", "'arctan'", "'exp'", "'log'" ];
+    static literalNames = [ null, "'\\sum_{'", "'='", "'}^{'", "'}'", "'\\frac{'", 
+                            "'}{'", "'\\cdot'", "'('", "')'", "'{'", "'\\'", 
+                            "'+'", "'-'", "'^'", "'sin'", "'cos'", "'tan'", 
+                            "'arcsin'", "'arccos'", "'arctan'", "'exp'", 
+                            "'log'" ];
     static symbolicNames = [ null, null, null, null, null, null, null, null, 
-                             null, null, null, "OP_ADD", "OP_MIN", "OP_POW", 
-                             "FN_SIN", "FN_COS", "FN_TAN", "FN_ARCSIN", 
+                             null, null, null, null, "OP_ADD", "OP_MIN", 
+                             "OP_POW", "FN_SIN", "FN_COS", "FN_TAN", "FN_ARCSIN", 
                              "FN_ARCCOS", "FN_ARCTAN", "FN_EXP", "FN_LOG", 
                              "CONSTANT", "VARIABLE", "REAL", "WS" ];
     static ruleNames = [ "prog", "expr", "sum", "frac", "prod", "atom", 
@@ -150,27 +151,27 @@ export default class MathParser extends antlr4.Parser {
 	            this.state = 21;
 	            localctx.dchild = this.frac();
 	            break;
-	        case 7:
-	        case 9:
+	        case 8:
 	        case 10:
-	        case 22:
+	        case 11:
 	        case 23:
 	        case 24:
+	        case 25:
 	            localctx = new PassExprContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
 	            this.state = 22;
 	            localctx.pchild = this.prod();
 	            break;
-	        case 11:
 	        case 12:
+	        case 13:
 	            localctx = new UnaryExprContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
 	            this.state = 23;
 	            localctx.op = this._input.LT(1);
 	            _la = this._input.LA(1);
-	            if(!(_la===11 || _la===12)) {
+	            if(!(_la===12 || _la===13)) {
 	                localctx.op = this._errHandler.recoverInline(this);
 	            }
 	            else {
@@ -203,7 +204,7 @@ export default class MathParser extends antlr4.Parser {
 	                this.state = 28;
 	                localctx.op = this._input.LT(1);
 	                _la = this._input.LA(1);
-	                if(!(_la===11 || _la===12)) {
+	                if(!(_la===12 || _la===13)) {
 	                    localctx.op = this._errHandler.recoverInline(this);
 	                }
 	                else {
@@ -254,7 +255,7 @@ export default class MathParser extends antlr4.Parser {
 	        this.state = 41;
 	        this.match(MathParser.T__3);
 	        this.state = 42;
-	        this.expr(0);
+	        localctx.summand = this.expr(0);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
 		        localctx.exception = re;
@@ -281,7 +282,7 @@ export default class MathParser extends antlr4.Parser {
 	        this.state = 45;
 	        localctx.left = this.expr(0);
 	        this.state = 46;
-	        this.match(MathParser.T__2);
+	        this.match(MathParser.T__5);
 	        this.state = 47;
 	        localctx.right = this.expr(0);
 	        this.state = 48;
@@ -325,18 +326,18 @@ export default class MathParser extends antlr4.Parser {
 	            this.state = 55;
 	            this._errHandler.sync(this);
 	            switch(this._input.LA(1)) {
-	            case 7:
-	            case 9:
+	            case 8:
 	            case 10:
-	            case 22:
+	            case 11:
 	            case 23:
 	            case 24:
+	            case 25:
 	                this.state = 52;
 	                localctx.right = this.prod();
 	                break;
-	            case 6:
+	            case 7:
 	                this.state = 53;
-	                this.match(MathParser.T__5);
+	                this.match(MathParser.T__6);
 	                this.state = 54;
 	                localctx.right = this.prod();
 	                break;
@@ -377,7 +378,7 @@ export default class MathParser extends antlr4.Parser {
 	        this.state = 70;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
-	        case 10:
+	        case 11:
 	            localctx = new PassAtomContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
@@ -385,38 +386,38 @@ export default class MathParser extends antlr4.Parser {
 	            this.state = 60;
 	            localctx.fchild = this.func();
 	            break;
-	        case 7:
+	        case 8:
 	            localctx = new PassAtomContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
 	            this.state = 61;
-	            this.match(MathParser.T__6);
+	            this.match(MathParser.T__7);
 	            this.state = 62;
 	            localctx.echild = this.expr(0);
 	            this.state = 63;
-	            this.match(MathParser.T__7);
+	            this.match(MathParser.T__8);
 	            break;
-	        case 9:
+	        case 10:
 	            localctx = new PassAtomContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
 	            this.state = 65;
-	            this.match(MathParser.T__8);
+	            this.match(MathParser.T__9);
 	            this.state = 66;
 	            localctx.echild = this.expr(0);
 	            this.state = 67;
 	            this.match(MathParser.T__3);
 	            break;
-	        case 22:
 	        case 23:
 	        case 24:
+	        case 25:
 	            localctx = new ValAtomContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
 	            this.state = 69;
 	            localctx.val = this._input.LT(1);
 	            _la = this._input.LA(1);
-	            if(!((((_la) & ~0x1f) === 0 && ((1 << _la) & 29360128) !== 0))) {
+	            if(!((((_la) & ~0x1f) === 0 && ((1 << _la) & 58720256) !== 0))) {
 	                localctx.val = this._errHandler.recoverInline(this);
 	            }
 	            else {
@@ -476,15 +477,15 @@ export default class MathParser extends antlr4.Parser {
 	    try {
 	        this.enterOuterAlt(localctx, 1);
 	        this.state = 80;
-	        this.match(MathParser.T__9);
+	        this.match(MathParser.T__10);
 	        this.state = 81;
 	        this.fn_name();
 	        this.state = 82;
-	        this.match(MathParser.T__6);
+	        this.match(MathParser.T__7);
 	        this.state = 83;
 	        this.expr(0);
 	        this.state = 84;
-	        this.match(MathParser.T__7);
+	        this.match(MathParser.T__8);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
 		        localctx.exception = re;
@@ -508,42 +509,42 @@ export default class MathParser extends antlr4.Parser {
 	        this.state = 94;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
-	        case 14:
+	        case 15:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 86;
 	            localctx.val = this.match(MathParser.FN_SIN);
 	            break;
-	        case 15:
+	        case 16:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 87;
 	            localctx.val = this.match(MathParser.FN_COS);
 	            break;
-	        case 16:
+	        case 17:
 	            this.enterOuterAlt(localctx, 3);
 	            this.state = 88;
 	            localctx.val = this.match(MathParser.FN_TAN);
 	            break;
-	        case 17:
+	        case 18:
 	            this.enterOuterAlt(localctx, 4);
 	            this.state = 89;
 	            localctx.val = this.match(MathParser.FN_ARCSIN);
 	            break;
-	        case 18:
+	        case 19:
 	            this.enterOuterAlt(localctx, 5);
 	            this.state = 90;
 	            localctx.val = this.match(MathParser.FN_ARCCOS);
 	            break;
-	        case 19:
+	        case 20:
 	            this.enterOuterAlt(localctx, 6);
 	            this.state = 91;
 	            localctx.val = this.match(MathParser.FN_ARCTAN);
 	            break;
-	        case 20:
+	        case 21:
 	            this.enterOuterAlt(localctx, 7);
 	            this.state = 92;
 	            localctx.val = this.match(MathParser.FN_EXP);
 	            break;
-	        case 21:
+	        case 22:
 	            this.enterOuterAlt(localctx, 8);
 	            this.state = 93;
 	            localctx.val = this.match(MathParser.FN_LOG);
@@ -579,21 +580,22 @@ MathParser.T__6 = 7;
 MathParser.T__7 = 8;
 MathParser.T__8 = 9;
 MathParser.T__9 = 10;
-MathParser.OP_ADD = 11;
-MathParser.OP_MIN = 12;
-MathParser.OP_POW = 13;
-MathParser.FN_SIN = 14;
-MathParser.FN_COS = 15;
-MathParser.FN_TAN = 16;
-MathParser.FN_ARCSIN = 17;
-MathParser.FN_ARCCOS = 18;
-MathParser.FN_ARCTAN = 19;
-MathParser.FN_EXP = 20;
-MathParser.FN_LOG = 21;
-MathParser.CONSTANT = 22;
-MathParser.VARIABLE = 23;
-MathParser.REAL = 24;
-MathParser.WS = 25;
+MathParser.T__10 = 11;
+MathParser.OP_ADD = 12;
+MathParser.OP_MIN = 13;
+MathParser.OP_POW = 14;
+MathParser.FN_SIN = 15;
+MathParser.FN_COS = 16;
+MathParser.FN_TAN = 17;
+MathParser.FN_ARCSIN = 18;
+MathParser.FN_ARCCOS = 19;
+MathParser.FN_ARCTAN = 20;
+MathParser.FN_EXP = 21;
+MathParser.FN_LOG = 22;
+MathParser.CONSTANT = 23;
+MathParser.VARIABLE = 24;
+MathParser.REAL = 25;
+MathParser.WS = 26;
 
 MathParser.RULE_prog = 0;
 MathParser.RULE_expr = 1;
@@ -835,11 +837,8 @@ class SumContext extends antlr4.ParserRuleContext {
         this.index = null;
         this.initial = null;
         this.final_ = null;
+        this.summand = null;
     }
-
-	expr() {
-	    return this.getTypedRuleContext(ExprContext,0);
-	};
 
 	VARIABLE() {
 	    return this.getToken(MathParser.VARIABLE, 0);
@@ -856,6 +855,10 @@ class SumContext extends antlr4.ParserRuleContext {
 	    }
 	};
 
+
+	expr() {
+	    return this.getTypedRuleContext(ExprContext,0);
+	};
 
 	enterRule(listener) {
 	    if(listener instanceof MathListener ) {

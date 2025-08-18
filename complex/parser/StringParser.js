@@ -6,40 +6,59 @@ import MathVisitor from './MathVisitor.js';
 class Visitor extends MathVisitor {
 
     auxiliaryFunctions = [];
+    indices = ['z'];
 
     visitProg(ctx) {
+        const expr = ctx.expr().accept(this);
+        const auxFuncs = this.auxiliaryFunctions.join('\n');
         return `
         // AUXILIARY FUNCTIONS
-        ${this.auxiliaryFunctions.join(`\n`)}
-        
+        ${auxFuncs}
+
         vec2 f(vec2 z) {
-            return ${ctx.expr().accept(this)};
+            return ${expr};
         }
         `;
     }
 
     visitSum(ctx) {
-        const funcName = `aux${this.auxiliaryFunctions.length}`;
-        const index = ctx.index.accept(this);
-        this.auxiliaryFunctions.push(`vec2 ${funcName}(vec2 z) {
+        const index = ctx.VARIABLE().getText();
+        const start = ctx.REAL(0).getText();
+        const end = ctx.REAL(1).getText();
+
+        
+        const funcName = `sum_${index}`;
+
+        this.indices.push(index);
+        const summand = ctx.summand.accept(this);
+        this.indices.pop();
+
+        this.auxiliaryFunctions.push(`vec2 ${funcName}(${this.indices.map(i => `vec2 ${i}`).join(', ')}) {
             vec2 temp = vec2(0.0, 0.0);
-            for(int ${index} = ${ctx.initial.accept(this)}; ${index} <= ${ctx.final.accept(this)}; ${index} += 1) {
-                temp += ${ctx.expr().accept(this)};
+            vec2 ${index} = vec2(${start}.0, 0.0);
+            while(${index}.x <= ${end}.0) {
+                temp += ${summand};
+                ${index} += vec2(1.0, 0.0);
             }
+            return temp;
         }`);
 
-        return `${funcName}(z)`;
+        return `${funcName}(${this.indices.join(', ')})`;
     }
 
     visitUnaryExpr(ctx) {
         if(ctx.op.type == MathLexer.OP_MIN)
-            return `-(${ctx.expr().accept(this)}`;
+            return `-(${ctx.expr().accept(this)})`;
         else
             return ctx.expr().accept(this);
     }
 
     visitPassExpr(ctx) {
-        return (ctx.dchild ? ctx.dchild : ctx.pchild).accept(this);
+        if(ctx.schild)
+            return ctx.schild.accept(this);
+        if(ctx.pchild)
+            return ctx.pchild.accept(this);
+        return ctx.dchild.accept(this);
     }
 
     visitSumDiffExpr(ctx) {

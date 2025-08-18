@@ -665,36 +665,6 @@ let oldColor = false;
 
 let gl, program, locations, buffers;
 
-function generateShaderFunction(ast) {
-    return `vec2 f(vec2 z) {\n    return ${a2g(ast)};\n}`;
-}
-
-function a2g(n) {
-    switch (n.op) {
-        case '+': return `${a2g(n.children[0])} + ${a2g(n.children[1])}`;
-        case '-': return `${a2g(n.children[0])} - ${a2g(n.children[1])}`;
-        case '*': return `cmul(${a2g(n.children[0])}, ${a2g(n.children[1])})`;
-        case '/': return `cdiv(${a2g(n.children[0])}, ${a2g(n.children[1])})`;
-        case '^': return `cpow(${a2g(n.children[0])}, ${a2g(n.children[1])})`;
-        case 'u+': return a2g(n.children[0]);
-        case 'u-': return `-(${a2g(n.children[0])})`;
-        case 'sin': return `csin(${a2g(n.children[0])})`;
-        case 'cos': return `ccos(${a2g(n.children[0])})`;
-        case 'tan': return `ctan(${a2g(n.children[0])})`;
-        case 'log': return `clog(${a2g(n.children[0])})`;
-        case 'exp': return `cexp(${a2g(n.children[0])})`;
-        case '\\pi': return 'vec2(PI, 0.0)';
-        case 'e': return 'vec2(E, 0.0)';
-        case 'i': return 'I';
-        case 'z': return 'z';
-        default:
-            if (n.op.includes('.'))
-                return `vec2(${n.op}, 0.0)`;
-            else
-                return `vec2(${n.op}.0, 0.0)`;
-    }
-}
-
 function createShader(gl, type, source) {
     const shader = gl.createShader(type);
     gl.shaderSource(shader, source);
@@ -1069,8 +1039,7 @@ function main() {
         handlers: {
             enter: () => {
                 const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');
-                const ast = MathParser.parse(enteredMath);
-                const func = generateShaderFunction(ast);
+                const func = MathParser.parse(enteredMath);
 
                 ({ program, locations, buffers } = initProgram(gl, func));
 
@@ -1089,8 +1058,7 @@ function main() {
         oldColor = colorCheck.checked;
         
         const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');
-        const ast = MathParser.parse(enteredMath);
-        const func = generateShaderFunction(ast);
+        const func = MathParser.parse(enteredMath);
 
         ({ program, locations, buffers } = initProgram(gl, func));
     })
@@ -1154,14 +1122,13 @@ function main() {
     // initialize function
     const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');
 	console.log(enteredMath);
-    const ast = MathParser.parse(enteredMath);
-    const func = generateShaderFunction(ast);
+    const func = MathParser.parse(enteredMath);
 
     ({ program, locations, buffers } = initProgram(gl, func));
 
     if (demo) {
         document.getElementById('latex').innerText = enteredMath;
-        document.getElementById('ast').innerText = JSON.stringify(ast, null, '  ');
+        document.getElementById('ast').innerText = JSON.stringify(func, null, '  ');
         document.getElementById('shader').innerText = func;
     }
 
