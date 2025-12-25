@@ -1,4 +1,4 @@
-// Generated from c:/Dev/GitHub/grapher/new/parser/Math.g4 by ANTLR 4.13.1
+// Generated from c:/Dev/GitHub/grapher/complex/parser/Math.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -59,6 +59,18 @@ public class MathBaseListener implements MathListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSumDiffExpr(MathParser.SumDiffExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSum(MathParser.SumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSum(MathParser.SumContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

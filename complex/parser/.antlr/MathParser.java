@@ -107,6 +107,14 @@ public class MathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_prog; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterProg(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitProg(this);
+		}
 	}
 
 	public final ProgContext prog() throws RecognitionException {
@@ -153,6 +161,14 @@ public class MathParser extends Parser {
 		public TerminalNode OP_ADD() { return getToken(MathParser.OP_ADD, 0); }
 		public TerminalNode OP_MIN() { return getToken(MathParser.OP_MIN, 0); }
 		public UnaryExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterUnaryExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitUnaryExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class PassExprContext extends ExprContext {
@@ -169,6 +185,14 @@ public class MathParser extends Parser {
 			return getRuleContext(ProdContext.class,0);
 		}
 		public PassExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterPassExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitPassExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class SumDiffExprContext extends ExprContext {
@@ -184,6 +208,14 @@ public class MathParser extends Parser {
 		public TerminalNode OP_ADD() { return getToken(MathParser.OP_ADD, 0); }
 		public TerminalNode OP_MIN() { return getToken(MathParser.OP_MIN, 0); }
 		public SumDiffExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterSumDiffExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitSumDiffExpr(this);
+		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -328,6 +360,14 @@ public class MathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sum; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterSum(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitSum(this);
+		}
 	}
 
 	public final SumContext sum() throws RecognitionException {
@@ -379,6 +419,14 @@ public class MathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_frac; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterFrac(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitFrac(this);
+		}
 	}
 
 	public final FracContext frac() throws RecognitionException {
@@ -428,6 +476,14 @@ public class MathParser extends Parser {
 			return getRuleContext(AtomContext.class,0);
 		}
 		public UnaryProdContext(ProdContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterUnaryProd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitUnaryProd(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class BinProdContext extends ProdContext {
@@ -440,6 +496,14 @@ public class MathParser extends Parser {
 			return getRuleContext(ProdContext.class,0);
 		}
 		public BinProdContext(ProdContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterBinProd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitBinProd(this);
+		}
 	}
 
 	public final ProdContext prod() throws RecognitionException {
@@ -526,6 +590,14 @@ public class MathParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public PassAtomContext(AtomContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterPassAtom(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitPassAtom(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ValAtomContext extends AtomContext {
@@ -534,6 +606,14 @@ public class MathParser extends Parser {
 		public TerminalNode CONSTANT() { return getToken(MathParser.CONSTANT, 0); }
 		public TerminalNode VARIABLE() { return getToken(MathParser.VARIABLE, 0); }
 		public ValAtomContext(AtomContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterValAtom(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitValAtom(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class PowAtomContext extends AtomContext {
@@ -548,6 +628,14 @@ public class MathParser extends Parser {
 		}
 		public TerminalNode OP_POW() { return getToken(MathParser.OP_POW, 0); }
 		public PowAtomContext(AtomContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterPowAtom(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitPowAtom(this);
+		}
 	}
 
 	public final AtomContext atom() throws RecognitionException {
@@ -679,6 +767,14 @@ public class MathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_func; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterFunc(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitFunc(this);
+		}
 	}
 
 	public final FuncContext func() throws RecognitionException {
@@ -725,6 +821,14 @@ public class MathParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_fn_name; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).enterFn_name(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathListener ) ((MathListener)listener).exitFn_name(this);
+		}
 	}
 
 	public final Fn_nameContext fn_name() throws RecognitionException {

@@ -224,7 +224,6 @@ function main() {
         gridSpacing = calculateGridSpacing(viewSize.width);
     });
 
-
     // initialize function
     const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');
 	if(demo)

@@ -1,3 +1,4 @@
 complex/parser/node_modules
 complex/parser/webpack.config.cjs
 .log
+DEVINFO.md

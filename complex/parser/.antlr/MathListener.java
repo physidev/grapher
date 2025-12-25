@@ -1,4 +1,4 @@
-// Generated from c:/Dev/GitHub/grapher/new/parser/Math.g4 by ANTLR 4.13.1
+// Generated from c:/Dev/GitHub/grapher/complex/parser/Math.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -52,6 +52,16 @@ public interface MathListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSumDiffExpr(MathParser.SumDiffExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MathParser#sum}.
+	 * @param ctx the parse tree
+	 */
+	void enterSum(MathParser.SumContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MathParser#sum}.
+	 * @param ctx the parse tree
+	 */
+	void exitSum(MathParser.SumContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MathParser#frac}.
 	 * @param ctx the parse tree

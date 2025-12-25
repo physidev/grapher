@@ -28,6 +28,7 @@
 
         body {
             font-family: sans-serif;
+            max-width: 640px;
         }
 
         .code {
@@ -48,7 +49,7 @@
 
     <p>A lexer tokenizes the strings, and a parser generates an <a
             href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">abstract syntax tree</a> (AST) representing the
-        expression. From the AST, the program rewrites the tree into a GLSL function that can be run in a WebGL fragment
+        expression. From the AST, the program interprets the tree to write a GLSL function that can be run in a WebGL fragment
         shader:</p>
     <pre class="code" id="shader" style="font-family:monospace;"></pre>
 

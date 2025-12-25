@@ -716,42 +716,6 @@ vec3 oklab2rgb(in vec3 c) {
 }
 `;
 
-const colorInversion = `
-// ACCURATE COLOR INVERSION
-// code by Jive Dadson
-// sRGB luminance(Y) values
-float rY = 0.212655;
-float gY = 0.715158;
-float bY = 0.072187;
-
-// Inverse of sRGB "gamma" function. (approx 2.2)
-float inv_gam_sRGB(float c) {
-	if ( c <= 0.04045 )
-		return c/12.92;
-	else 
-		return pow(((c+0.055)/(1.055)),2.4);
-}
-
-// sRGB "gamma" function (approx 2.2)
-float gam_sRGB(float v) {
-	if(v<=0.0031308)
-		v *= 12.92;
-	else 
-		v = 1.055*pow(v,1.0/2.4)-0.055;
-	return v;  // This is correct in C++. Other languages may not
-							// require +0.5
-}
-
-// gray value ("brightness")
-float gray(float r, float g, float b) {
-	return gam_sRGB(
-			rY*inv_gam_sRGB(r) +
-			gY*inv_gam_sRGB(g) +
-			bY*inv_gam_sRGB(b)
-	);
-}
-`;
-
 const gridlines = `
 // GRIDLINES
 // code by Ricky Reusser: https://observablehq.com/@rreusser/locally-scaled-domain-coloring-part-1-contour-plots
@@ -802,7 +766,6 @@ uniform vec2 u_gridSpacing;
 
 ${okhslGlsl}
 ${oldColor}
-${colorInversion}
 ${gridlines}
 ${complexMath}
 
@@ -821,7 +784,7 @@ void main() {
 	${data.enableOldColor ? '' : '//'} vec3 color = oklab2rgb(vec3( radius/(radius + 1.0), 0.25 * cos(angle), 0.25 * sin(angle) ));
 	${!data.enableOldColor ? '' : '//'} vec3 color = okhsl_to_srgb(vec3(angle / (2.0*PI), 0.75*C, 0.5*C));
 
-	float width = 0.75;
+	float width = 0.5;
 	float antialiasWidth = 1.0;
 
 	// gridline spacing in complex plane
@@ -842,7 +805,7 @@ void main() {
 
 	float gM = 0.5*max(max(axisX,axisY), max(max(majorX, majorY), max(minorX, minorY)));
 
-	float g = invert(gray(color.x,color.y,color.z));
+	float g = 0.8f;
 
 	outColor = mix(vec4(color, 1.0), vec4(g,g,g, 1.0), gM);
 }
