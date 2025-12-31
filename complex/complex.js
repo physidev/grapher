@@ -124,11 +124,13 @@ function redrawGridlineNumbers(gridCanvas, gridCtx) {
         x: Math.floor(offset.x / gridSpacing.major) * gridSpacing.major,
         y: Math.floor(offset.y / gridSpacing.major) * gridSpacing.major
     }
+    const x = Math.max(offset.x, Math.min(0, offset.x + viewSize.width));
+    const y = Math.max(offset.y, Math.min(0, offset.y + viewSize.height));
 
     // horizontal numbers
     for(let i = 0; i <= numLines.x; i++) {
-        let num = startLine.x + i * gridSpacing.major;
-        let y = Math.max(offset.y, Math.min(0, offset.y + viewSize.height));
+        const n = startLine.x + i * gridSpacing.major;
+        const num = Math.round(n * 1e15) / 1e15;            // drops floating point nonsense
         
         gridCtx.fillText(num, 
             (num - offset.x) * gridCanvas.width / viewSize.width, 
@@ -138,8 +140,8 @@ function redrawGridlineNumbers(gridCanvas, gridCtx) {
     
     // vertical numbers
     for(let i=0; i <= numLines.y; i++) {
-        let num = startLine.y + i * gridSpacing.major;
-        let x = Math.max(offset.x, Math.min(0, offset.x + viewSize.width));
+        const n = startLine.y + i * gridSpacing.major;
+        const num = Math.round(n * 1e15) / 1e15;
 
         gridCtx.fillText(num + "i", 
             (x - offset.x) * gridCanvas.width / viewSize.width, 
@@ -164,8 +166,8 @@ function calculateGridSpacing(x) {
 } 
 
 function main() {
-    // INITIALIZATION
 
+    // INITIALIZATION
     // obtain canvas webgl context
     const canvas = document.querySelector('#glcanvas');
     const gridCanvas = document.querySelector('#gridcanvas');
