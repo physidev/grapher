@@ -252,8 +252,8 @@ function main() {
             y: event.center.y - canvas.offsetTop
         }
 
-        origin.x -= - (dragEnd.x - dragStart.x) / gl.canvas.width * viewSize.width;
-        origin.y -= (dragEnd.y - dragStart.y) / gl.canvas.height * viewSize.height;
+        origin.x -= - (dragEnd.x - dragStart.x) / gl.canvas.width * dpr * viewSize.width;
+        origin.y -= (dragEnd.y - dragStart.y) / gl.canvas.height * dpr * viewSize.height;
 
         dragStart = dragEnd;
         redrawGridlineNumbers(gridCanvas, gridCtx);
@@ -275,8 +275,8 @@ function main() {
         viewSize.height /= zoom;
 
         // origin += mouseNew - mouseOld
-        origin.x += (mouseU - mouseU * zoom) * viewSize.width;
-        origin.y += (mouseV - mouseV * zoom) * viewSize.height;
+        origin.x += (mouseU - mouseU * zoom) * viewSize.width * dpr;
+        origin.y += (mouseV - mouseV * zoom) * viewSize.height * dpr;
 
         gridSpacing = calculateGridSpacing(viewSize.width);
         redrawGridlineNumbers(gridCanvas, gridCtx);
