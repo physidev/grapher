@@ -184,13 +184,13 @@ function main() {
     canvas.height = rect.height;
     gridCanvas.width = rect.width;
     gridCanvas.height = rect.height;
+    viewSize = { height: 10, width: rect.width / rect.height * 10 };
+    origin = { y: 5, x: rect.width / rect.height * 5 };
     
     gridCtx.font = "12px Arial";
     gridCtx.fillStyle = "#fff";
     redrawGridlineNumbers(gridCanvas, gridCtx);
 
-    viewSize = { height: 10, width: rect.width / rect.height * 10 };
-    origin = { y: 5, x: rect.width / rect.height * 5 };
 
     // math input
     const inputSpan = document.getElementById('mathinput');
