@@ -108,6 +108,49 @@ function render(gl, program, locations, buffers) {
     gl.drawArrays(primitiveType, 0, count);
 }
 
+function redrawGridlineNumbers(gridCanvas, gridCtx) {
+    gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+
+    // find all multiples of gridSpacing.x that fall in the range [offset.x, offset.x + viewSize.x]
+    const offset = {
+        x: -origin.x,
+        y: -origin.y
+    }
+    const numLines = {
+        x: Math.ceil(viewSize.width / gridSpacing.major), 
+        y: Math.ceil(viewSize.height / gridSpacing.major)
+    };
+    const startLine = {
+        x: Math.floor(offset.x / gridSpacing.major) * gridSpacing.major,
+        y: Math.floor(offset.y / gridSpacing.major) * gridSpacing.major
+    }
+
+    // horizontal numbers
+    for(let i = 0; i <= numLines.x; i++) {
+        let num = startLine.x + i * gridSpacing.major;
+        let y = Math.max(offset.y, Math.min(0, offset.y + viewSize.height));
+
+        console.log((num - offset.x) * gridCanvas.width / viewSize.width);
+        
+        gridCtx.fillText(num, 
+            (num - offset.x) * gridCanvas.width / viewSize.width, 
+            gridCanvas.height - ((y - offset.y) * gridCanvas.height / viewSize.height)
+        );
+    }
+    
+    // vertical numbers
+    for(let i=0; i <= numLines.y; i++) {
+        let num = startLine.y + i * gridSpacing.major;
+        let x = Math.max(offset.x, Math.min(0, offset.x + viewSize.width));
+
+        gridCtx.fillText(num + "i", 
+            (x - offset.x) * gridCanvas.width / viewSize.width, 
+            gridCanvas.height - ((num - offset.y) * gridCanvas.height / viewSize.height)
+        );
+    }
+    
+}
+
 function calculateGridSpacing(x) {
     // largest power of 10 smaller than the screenWidth x
     s = Math.pow(10, Math.floor(Math.log10(x)));
@@ -124,6 +167,7 @@ function calculateGridSpacing(x) {
 
 function main() {
     // INITIALIZATION
+
     // obtain canvas webgl context
     const canvas = document.querySelector('#glcanvas');
     const gridCanvas = document.querySelector('#gridcanvas');
@@ -133,12 +177,17 @@ function main() {
         console.error('No webgl!');
         return;
     }
+    const gridCtx = gridCanvas.getContext('2d');
 
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
     gridCanvas.width = rect.width;
     gridCanvas.height = rect.height;
+    
+    gridCtx.font = "12px Arial";
+    gridCtx.fillStyle = "#fff";
+    redrawGridlineNumbers(gridCanvas, gridCtx);
 
     viewSize = { height: 10, width: rect.width / rect.height * 10 };
     origin = { y: 5, x: rect.width / rect.height * 5 };
@@ -180,12 +229,15 @@ function main() {
             y: event.center.y - canvas.offsetTop
         }
         dragging = true;
+        redrawGridlineNumbers(gridCanvas, gridCtx);
     });
     hammer.on('panend', event => {
         dragging = false;
+        redrawGridlineNumbers(gridCanvas, gridCtx);
     });
     hammer.on('pancancel', event => {
         dragging = false;
+        redrawGridlineNumbers(gridCanvas, gridCtx);
     });
     hammer.on('panmove', event => {
         if (!dragging)
@@ -200,6 +252,7 @@ function main() {
         origin.y -= (dragEnd.y - dragStart.y) / gl.canvas.height * viewSize.height;
 
         dragStart = dragEnd;
+        redrawGridlineNumbers(gridCanvas, gridCtx);
     });
     gridCanvas.addEventListener('wheel', event => {
         event.preventDefault();
@@ -222,6 +275,7 @@ function main() {
         origin.y += (mouseV - mouseV * zoom) * viewSize.height;
 
         gridSpacing = calculateGridSpacing(viewSize.width);
+        redrawGridlineNumbers(gridCanvas, gridCtx);
     });
 
     // initialize function
