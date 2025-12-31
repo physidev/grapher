@@ -129,8 +129,6 @@ function redrawGridlineNumbers(gridCanvas, gridCtx) {
     for(let i = 0; i <= numLines.x; i++) {
         let num = startLine.x + i * gridSpacing.major;
         let y = Math.max(offset.y, Math.min(0, offset.y + viewSize.height));
-
-        console.log((num - offset.x) * gridCanvas.width / viewSize.width);
         
         gridCtx.fillText(num, 
             (num - offset.x) * gridCanvas.width / viewSize.width, 
@@ -172,22 +170,28 @@ function main() {
     const canvas = document.querySelector('#glcanvas');
     const gridCanvas = document.querySelector('#gridcanvas');
 
+
     gl = canvas.getContext('webgl2');
     if (!gl) {
         console.error('No webgl!');
         return;
     }
     const gridCtx = gridCanvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    console.log(dpr);
+
 
     const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    gridCanvas.width = rect.width;
-    gridCanvas.height = rect.height;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    gridCanvas.width = rect.width * dpr;
+    gridCanvas.height = rect.height * dpr;
+
+
     viewSize = { height: 10, width: rect.width / rect.height * 10 };
     origin = { y: 5, x: rect.width / rect.height * 5 };
     
-    gridCtx.font = "12px Arial";
+    gridCtx.font = (12 * dpr) + "px Arial";
     gridCtx.fillStyle = "#fff";
     redrawGridlineNumbers(gridCanvas, gridCtx);
 
