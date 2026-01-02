@@ -7,8 +7,6 @@ let grid = false;
 const zoomIntensity = 0.05;
 let enableOldColor = false;
 
-let gl, program, locations, buffers;
-
 function createShader(gl, type, source) {
     const shader = gl.createShader(type);
     gl.shaderSource(shader, source);
@@ -108,7 +106,7 @@ function render(gl, program, locations, buffers) {
     gl.drawArrays(primitiveType, 0, count);
 }
 
-function redrawGridlineNumbers(gridCanvas, gridCtx) {
+function renderGridNumbers(gridCanvas, gridCtx) {
     gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
 
     // find all multiples of gridSpacing.x that fall in the range [offset.x, offset.x + viewSize.x]
@@ -172,31 +170,26 @@ function main() {
     const canvas = document.querySelector('#glcanvas');
     const gridCanvas = document.querySelector('#gridcanvas');
 
-
-    gl = canvas.getContext('webgl2');
+    const gl = canvas.getContext('webgl2');
     if (!gl) {
         console.error('No webgl!');
         return;
     }
     const gridCtx = gridCanvas.getContext('2d');
+
     const dpr = window.devicePixelRatio || 1;
-    console.log(dpr);
-
-
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     gridCanvas.width = rect.width * dpr;
     gridCanvas.height = rect.height * dpr;
 
-
     viewSize = { height: 10, width: rect.width / rect.height * 10 };
     origin = { y: 5, x: rect.width / rect.height * 5 };
     
     gridCtx.font = (12 * dpr) + "px Arial";
     gridCtx.fillStyle = "#fff";
-    redrawGridlineNumbers(gridCanvas, gridCtx);
-
+    renderGridNumbers(gridCanvas, gridCtx);
 
     // math input
     const inputSpan = document.getElementById('mathinput');
@@ -235,15 +228,15 @@ function main() {
             y: event.center.y - canvas.offsetTop
         }
         dragging = true;
-        redrawGridlineNumbers(gridCanvas, gridCtx);
+        renderGridNumbers(gridCanvas, gridCtx);
     });
     hammer.on('panend', event => {
         dragging = false;
-        redrawGridlineNumbers(gridCanvas, gridCtx);
+        renderGridNumbers(gridCanvas, gridCtx);
     });
     hammer.on('pancancel', event => {
         dragging = false;
-        redrawGridlineNumbers(gridCanvas, gridCtx);
+        renderGridNumbers(gridCanvas, gridCtx);
     });
     hammer.on('panmove', event => {
         if (!dragging)
@@ -258,7 +251,7 @@ function main() {
         origin.y -= (dragEnd.y - dragStart.y) / gl.canvas.height * dpr * viewSize.height;
 
         dragStart = dragEnd;
-        redrawGridlineNumbers(gridCanvas, gridCtx);
+        renderGridNumbers(gridCanvas, gridCtx);
     });
     gridCanvas.addEventListener('wheel', event => {
         event.preventDefault();
@@ -281,7 +274,7 @@ function main() {
         origin.y += (mouseV - mouseV * zoom) * viewSize.height * dpr;
 
         gridSpacing = calculateGridSpacing(viewSize.width);
-        redrawGridlineNumbers(gridCanvas, gridCtx);
+        renderGridNumbers(gridCanvas, gridCtx);
     });
 
     // initialize function
