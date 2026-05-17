@@ -750,6 +750,8 @@ float invert(float x) {
 `;
 
 function generateFragmentShader(data) {
+	const preTransformGlsl = data.preTransformFunction
+		.replace('vec2 f(vec2 z)', 'vec2 g(vec2 z)');
 	return `#version 300 es
 // #extension GL_OES_standard_derivatives : enable
 
@@ -766,6 +768,7 @@ uniform vec2 u_gridSpacing;
 uniform float u_gridEnabled;
 uniform sampler2D u_image;
 uniform float u_useImage;
+uniform float u_preTransformEnabled;
 
 ${okhslGlsl}
 ${oldColor}
@@ -774,11 +777,14 @@ ${complexMath}
 
 ${data.cFunction}
 
+${preTransformGlsl}
+
 out vec4 outColor;
 
 void main() {
-	vec2 coords = (gl_FragCoord.xy/u_resolution)*u_viewSize + u_offset; 
-	vec2 f = f(coords);
+	vec2 coords = (gl_FragCoord.xy/u_resolution)*u_viewSize + u_offset;
+	vec2 z_in = u_preTransformEnabled > 0.5 ? g(coords) : coords;
+	vec2 f = f(z_in);
 
 	float angle = atan(f.y, f.x);
 	float radius = length(f);

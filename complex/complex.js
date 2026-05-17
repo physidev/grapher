@@ -8,6 +8,8 @@ const zoomIntensity = 0.05;
 let enableOldColor = false;
 let imageTexture = null;
 let useImage = false;
+let preTransformFunction = 'vec2 g(vec2 z) { return z; }';
+let usePreTransform = false;
 
 function createShader(gl, type, source) {
     const shader = gl.createShader(type);
@@ -40,7 +42,7 @@ function initProgram(gl, cFunction) {
     gl.getExtension("OES_standard_derivatives");
 
 	const fsSource = generateFragmentShader({
-		cFunction, enableOldColor
+		cFunction, enableOldColor, preTransformFunction
 	});
 
     // compile shaders and link into shader program
@@ -56,7 +58,8 @@ function initProgram(gl, cFunction) {
             gridSpacing: gl.getUniformLocation(program, 'u_gridSpacing'),
             gridEnabled: gl.getUniformLocation(program, 'u_gridEnabled'),
             image: gl.getUniformLocation(program, 'u_image'),
-            useImage: gl.getUniformLocation(program, 'u_useImage')
+            useImage: gl.getUniformLocation(program, 'u_useImage'),
+            preTransformEnabled: gl.getUniformLocation(program, 'u_preTransformEnabled')
         },
         attribute: {
             position: gl.getAttribLocation(program, "a_position")
@@ -108,6 +111,7 @@ function render(gl, program, locations, buffers) {
     gl.uniform1f(locations.uniform.gridEnabled, showGrid ? 1.0 : 0.0);
     gl.uniform1i(locations.uniform.image, 0);
     gl.uniform1f(locations.uniform.useImage, useImage ? 1.0 : 0.0);
+    gl.uniform1f(locations.uniform.preTransformEnabled, usePreTransform ? 1.0 : 0.0);
     if (useImage && imageTexture) {
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, imageTexture);
@@ -339,6 +343,30 @@ function main() {
         gridSpacing = calculateGridSpacing(viewSize.width);
         renderGridNumbers(gridCanvas, gridCtx);
     });
+
+    // pre-transform
+    const pretransformCheck = document.getElementById('pretransform-check');
+    pretransformCheck.addEventListener('change', () => {
+        usePreTransform = pretransformCheck.checked;
+    });
+
+    const pretransformInputSpan = document.getElementById('pretransform-mathinput');
+    const pretransformField = MQ.MathField(pretransformInputSpan, {
+        handlers: {
+            enter: () => {
+                const latex = pretransformField.latex()
+                    .replaceAll('\\left', '').replaceAll('\\right', '');
+                preTransformFunction = MathParser.parse(latex)
+                    .replace('vec2 f(vec2 z)', 'vec2 g(vec2 z)');
+                const mainLatex = inputMathField.latex()
+                    .replaceAll('\\left', '').replaceAll('\\right', '');
+                ({ program, locations, buffers } = initProgram(gl, MathParser.parse(mainLatex)));
+            }
+        }
+    });
+
+    preTransformFunction = MathParser.parse('z')
+        .replace('vec2 f(vec2 z)', 'vec2 g(vec2 z)');
 
     // initialize function
     const enteredMath = inputMathField.latex().replaceAll('\\left', '').replaceAll('\\right', '');

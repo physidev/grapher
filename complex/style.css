@@ -140,3 +140,16 @@ body {
 #imagecheck-row {
     display: none;
 }
+
+#pretransform-input {
+    border: solid #012980 1px;
+    background: white;
+    margin: 2px 0 4px 0;
+}
+
+#pretransform-mathinput {
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+}
