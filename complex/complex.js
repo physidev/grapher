@@ -6,6 +6,8 @@ let gridSpacing = {major: 2, minor: 0.5};
 let showGrid = true;
 const zoomIntensity = 0.05;
 let enableOldColor = false;
+let imageTexture = null;
+let useImage = false;
 
 function createShader(gl, type, source) {
     const shader = gl.createShader(type);
@@ -52,7 +54,9 @@ function initProgram(gl, cFunction) {
             viewSize: gl.getUniformLocation(program, 'u_viewSize'),
             offset: gl.getUniformLocation(program, 'u_offset'),
             gridSpacing: gl.getUniformLocation(program, 'u_gridSpacing'),
-            gridEnabled: gl.getUniformLocation(program, 'u_gridEnabled')
+            gridEnabled: gl.getUniformLocation(program, 'u_gridEnabled'),
+            image: gl.getUniformLocation(program, 'u_image'),
+            useImage: gl.getUniformLocation(program, 'u_useImage')
         },
         attribute: {
             position: gl.getAttribLocation(program, "a_position")
@@ -102,6 +106,12 @@ function render(gl, program, locations, buffers) {
     gl.uniform2f(locations.uniform.offset, -origin.x, -origin.y);
     gl.uniform2f(locations.uniform.gridSpacing, gridSpacing.major, gridSpacing.minor);
     gl.uniform1f(locations.uniform.gridEnabled, showGrid ? 1.0 : 0.0);
+    gl.uniform1i(locations.uniform.image, 0);
+    gl.uniform1f(locations.uniform.useImage, useImage ? 1.0 : 0.0);
+    if (useImage && imageTexture) {
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, imageTexture);
+    }
 
     const primitiveType = gl.TRIANGLES;
     const count = 6;
@@ -223,6 +233,26 @@ function main() {
     gridCheck.addEventListener('change', () => {
         showGrid = gridCheck.checked;
         renderGridNumbers(gridCanvas, gridCtx);
+    });
+
+    const imageInput = document.getElementById('imageupload');
+    imageInput.addEventListener('change', () => {
+        const file = imageInput.files[0];
+        if (!file) return;
+        const img = new Image();
+        img.onload = () => {
+            if (imageTexture) gl.deleteTexture(imageTexture);
+            imageTexture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, imageTexture);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+            useImage = true;
+            URL.revokeObjectURL(img.src);
+        };
+        img.src = URL.createObjectURL(file);
     });
 
     const colorCheck = document.getElementById('colorcheck');

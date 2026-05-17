@@ -764,6 +764,8 @@ uniform vec2 u_viewSize;
 uniform vec2 u_offset;
 uniform vec2 u_gridSpacing;
 uniform float u_gridEnabled;
+uniform sampler2D u_image;
+uniform float u_useImage;
 
 ${okhslGlsl}
 ${oldColor}
@@ -782,8 +784,13 @@ void main() {
 	float radius = length(f);
 	float C = radius / (radius + 1.0);
 	
-	${data.enableOldColor ? '' : '//'} vec3 color = oklab2rgb(vec3( radius/(radius + 1.0), 0.25 * cos(angle), 0.25 * sin(angle) ));
-	${!data.enableOldColor ? '' : '//'} vec3 color = okhsl_to_srgb(vec3(angle / (2.0*PI), 0.75*C, 0.5*C));
+	vec3 color;
+	if (u_useImage > 0.5) {
+		color = texture(u_image, vec2(fract(f.x), 1.0 - fract(f.y))).rgb;
+	} else {
+		${data.enableOldColor ? '' : '//'} color = oklab2rgb(vec3( radius/(radius + 1.0), 0.25 * cos(angle), 0.25 * sin(angle) ));
+		${!data.enableOldColor ? '' : '//'} color = okhsl_to_srgb(vec3(angle / (2.0*PI), 0.75*C, 0.5*C));
+	}
 
 	float width = 0.5;
 	float antialiasWidth = 1.0;
