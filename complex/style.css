@@ -92,7 +92,7 @@ body {
     z-index: 100;
     font-size: 12px;
     font-family: sans-serif;
-    min-width: 180px;
+    min-width: 250px;
 }
 
 #settings-panel.settings-panel--open {
@@ -126,4 +126,17 @@ body {
     max-width: 105px;
     font-size: 11px;
     cursor: pointer;
+}
+
+#image-preview {
+    display: none;
+    width: 100%;
+    max-height: 80px;
+    object-fit: contain;
+    margin: 4px 0;
+    background-color: #eee;
+}
+
+#imagecheck-row {
+    display: none;
 }

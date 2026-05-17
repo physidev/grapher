@@ -236,9 +236,26 @@ function main() {
     });
 
     const imageInput = document.getElementById('imageupload');
+    const imageCheck = document.getElementById('imagecheck');
+    const imagePreview = document.getElementById('image-preview');
+    const imageCheckRow = document.getElementById('imagecheck-row');
+    let currentImageURL = null;
+
+    imageCheck.addEventListener('change', () => {
+        useImage = imageCheck.checked;
+    });
+
     imageInput.addEventListener('change', () => {
         const file = imageInput.files[0];
         if (!file) return;
+
+        if (currentImageURL) URL.revokeObjectURL(currentImageURL);
+        currentImageURL = URL.createObjectURL(file);
+
+        imagePreview.src = currentImageURL;
+        imagePreview.style.display = 'block';
+        imageCheckRow.style.display = 'flex';
+
         const img = new Image();
         img.onload = () => {
             if (imageTexture) gl.deleteTexture(imageTexture);
@@ -250,9 +267,9 @@ function main() {
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
             useImage = true;
-            URL.revokeObjectURL(img.src);
+            imageCheck.checked = true;
         };
-        img.src = URL.createObjectURL(file);
+        img.src = currentImageURL;
     });
 
     const colorCheck = document.getElementById('colorcheck');
