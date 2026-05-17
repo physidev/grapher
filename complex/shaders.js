@@ -763,6 +763,7 @@ uniform vec2 u_resolution;
 uniform vec2 u_viewSize;
 uniform vec2 u_offset;
 uniform vec2 u_gridSpacing;
+uniform float u_gridEnabled;
 
 ${okhslGlsl}
 ${oldColor}
@@ -803,7 +804,7 @@ void main() {
 	float minorX = 0.25 * gridline(coords.x, width, antialiasWidth, minor);
 	float minorY = 0.25 * gridline(coords.y, width, antialiasWidth, minor);
 
-	float gM = 0.5*max(max(axisX,axisY), max(max(majorX, majorY), max(minorX, minorY)));
+	float gM = u_gridEnabled * 0.5*max(max(axisX,axisY), max(max(majorX, majorY), max(minorX, minorY)));
 
 	float g = 0.8f;
 

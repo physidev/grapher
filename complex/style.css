@@ -79,3 +79,43 @@ body {
 #demo-link:hover {
     text-decoration: underline;
 }
+
+#settings-panel {
+    display: none;
+    position: absolute;
+    bottom: 30px;
+    right: 0;
+    background-color: #012980;
+    color: white;
+    padding: 10px 15px;
+    z-index: 100;
+    font-size: 12px;
+    font-family: sans-serif;
+    min-width: 180px;
+}
+
+#settings-panel.settings-panel--open {
+    display: block;
+}
+
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+}
+
+#settings-btn {
+    background: none;
+    border: 1px solid white;
+    color: white;
+    font-size: 12px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-family: sans-serif;
+}
+
+#settings-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}

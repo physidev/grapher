@@ -3,7 +3,7 @@ let origin = {
 };
 let viewSize = { width: 12.8, height: 9.6 };
 let gridSpacing = {major: 2, minor: 0.5};
-let grid = false;
+let showGrid = true;
 const zoomIntensity = 0.05;
 let enableOldColor = false;
 
@@ -51,7 +51,8 @@ function initProgram(gl, cFunction) {
             resolution: gl.getUniformLocation(program, 'u_resolution'),
             viewSize: gl.getUniformLocation(program, 'u_viewSize'),
             offset: gl.getUniformLocation(program, 'u_offset'),
-            gridSpacing: gl.getUniformLocation(program, 'u_gridSpacing')
+            gridSpacing: gl.getUniformLocation(program, 'u_gridSpacing'),
+            gridEnabled: gl.getUniformLocation(program, 'u_gridEnabled')
         },
         attribute: {
             position: gl.getAttribLocation(program, "a_position")
@@ -100,6 +101,7 @@ function render(gl, program, locations, buffers) {
     gl.uniform2f(locations.uniform.viewSize, viewSize.width, viewSize.height);
     gl.uniform2f(locations.uniform.offset, -origin.x, -origin.y);
     gl.uniform2f(locations.uniform.gridSpacing, gridSpacing.major, gridSpacing.minor);
+    gl.uniform1f(locations.uniform.gridEnabled, showGrid ? 1.0 : 0.0);
 
     const primitiveType = gl.TRIANGLES;
     const count = 6;
@@ -108,6 +110,7 @@ function render(gl, program, locations, buffers) {
 
 function renderGridNumbers(gridCanvas, gridCtx) {
     gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+    if (!showGrid) return;
 
     // find all multiples of gridSpacing.x that fall in the range [offset.x, offset.x + viewSize.x]
     const offset = {
@@ -208,7 +211,20 @@ function main() {
         }
     });
 
-    // settings
+    // settings panel
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsPanel = document.getElementById('settings-panel');
+    settingsBtn.addEventListener('click', () => {
+        settingsPanel.classList.toggle('settings-panel--open');
+    });
+
+    const gridCheck = document.getElementById('gridcheck');
+    gridCheck.checked = showGrid;
+    gridCheck.addEventListener('change', () => {
+        showGrid = gridCheck.checked;
+        renderGridNumbers(gridCanvas, gridCtx);
+    });
+
     const colorCheck = document.getElementById('colorcheck');
     colorCheck.addEventListener('change', (e) => {
         enableOldColor = colorCheck.checked;
