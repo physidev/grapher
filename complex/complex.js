@@ -361,6 +361,8 @@ function main() {
                 const mainLatex = inputMathField.latex()
                     .replaceAll('\\left', '').replaceAll('\\right', '');
                 ({ program, locations, buffers } = initProgram(gl, MathParser.parse(mainLatex)));
+                usePreTransform = true;
+                pretransformCheck.checked = true;
             }
         }
     });
